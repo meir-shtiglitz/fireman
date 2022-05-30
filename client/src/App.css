@@ -1,0 +1,37 @@
+#root{
+    overflow-x: clip;
+}
+.overlay{
+    position: fixed;
+    z-index: 10;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(250, 235, 215, 0.61);
+}
+
+.in-overlay{
+    position: absolute;
+    height: 90vh;
+    top: 5vh;
+    bottom: 5vh;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.stars{
+    direction: ltr;
+}

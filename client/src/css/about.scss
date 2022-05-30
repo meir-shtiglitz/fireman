@@ -1,0 +1,51 @@
+@import 'vars.scss';
+
+li.type-line {
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+    margin: auto;
+}
+
+#about{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: 2% 4%;
+    
+    .herro-carousel{
+        .text{
+            display: none;
+        }
+
+        .active img {
+            width: 48%;
+        }
+    }:after{
+        content: none;
+    }
+
+    
+    .about-text {
+        white-space: pre-wrap;
+        position: relative;
+        text-align: center;
+        padding: 0 4%;
+        font-size: 1.3em;
+        font-weight: bold;
+        color: black;
+
+        img {
+            position: absolute;
+            z-index: -1;
+            right: 0;
+            object-fit: cover;
+            height: 100%;
+        }
+        p{
+            position: relative;
+            left: -15%;
+            padding: 5% 0;
+        }
+    }
+}

@@ -1,0 +1,86 @@
+@import 'vars.scss';
+
+.recommends {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+
+
+    .recommend.middle{
+        margin-top: 6.5%;
+        transform: skewY(0deg);
+        svg.bg-recommend {
+            display: none;
+            transform: scale(-1,1);
+            height: 120%;
+            transform: rotate(300deg);
+        }
+        svg.bg-recommend.bg-middle{
+            display: block;
+        }
+    }
+    .recommend.middle.fourth{
+        svg.bg-recommend.bg-middle{
+            transform: scale(1, 1);
+        }
+    }
+    .recommend.right{
+        margin-top: 6%;
+        transform: skewY(-10deg);
+        svg.bg-recommend {
+            transform: scale(-1,1);
+        }
+    }
+    .recommend{
+        // height: 500px;
+        // padding: 0 6%;
+        height: 350px;
+        padding: 0 6.5%;
+        transform: skewY(10deg);
+        position: relative;
+        margin-top: 5%;
+        margin-bottom: 2%;
+        background-color: transparent;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: -100px;
+        text-align: center;
+
+        svg.bg-recommend {
+            fill: $mainColor;
+            color: $mainColor;
+            object-fit: cover;
+            width: 100%;
+            position: absolute;
+            height: 100%;
+            z-index: -1;
+        }
+        svg.bg-recommend.bg-middle {
+            display: none;
+        }
+
+        .text-recommend{
+            display: flex;
+            margin-top: -20%;
+            flex-direction: column;
+            align-items: center;
+            // justify-content: space-around;
+            // height: 50%;
+            justify-content: center;
+            height: 100%;
+
+            >svg{
+                font-size: 3em;
+            }
+
+            .btn{
+                position: absolute;
+                display: block;
+                width: min-content;
+                margin: auto;
+                background-color: invert($mainColor);
+            }
+        }
+    }
+}

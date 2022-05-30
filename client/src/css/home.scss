@@ -1,0 +1,12 @@
+.home {
+    .home-recommends{
+        z-index: 2;
+        height: 530px;
+        .carousel-button{
+            display: none;
+        }
+        .recommends{
+            height: inherit;
+        }
+    }
+}

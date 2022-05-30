@@ -1,0 +1,54 @@
+.final-video{
+    position: relative;
+    height: 500px;
+    width: 500px;
+}
+
+.final-video video{
+ position: absolute;
+}
+
+.fire{
+    font-size: 55px;
+    filter: blur(0.02em);
+    -webkit-filter: blur(0.02em);
+    margin: 0 auto;
+    position: relative;
+    width: 4em;
+    height: 11em;
+    transform: rotateZ(
+116deg
+);
+}
+  iframe{
+      position: absolute;
+      height: 100%;
+      width: 100%;
+  }
+
+  .wrap-input{
+      /* background-image: url('../assets/images/paper.jpg'); */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 400px;
+      background-repeat: no-repeat;
+      background-position: center;
+
+    }
+    .wrap-input input{
+        background-color: transparent;
+        width: 150px;
+    }
+.prediction{
+    transform: rotateZ(352deg);
+    opacity: 0.85;
+    position: absolute;
+    font-size: 70px;
+    font-family: cursive;
+    z-index: 2;
+    height: auto;
+    top: 40%;
+    left: 8%;
+    width: 100%;
+}

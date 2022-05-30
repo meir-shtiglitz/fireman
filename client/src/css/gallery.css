@@ -1,0 +1,11 @@
+.close-btn{
+    position: absolute;
+    z-index: 1001;
+    top: 0;
+    right: 0;
+}
+
+.slick-track img {
+    width: 300px;
+    height: 200px;
+}

@@ -1,0 +1,33 @@
+.loader{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.719);
+    z-index: 9999;
+}
+
+.loader .fire{
+    top: 20%;
+    font-size: 55px;
+    filter: blur(0.02em);
+    -webkit-filter: blur(0.02em);
+    margin: 0 auto;
+    position: relative;
+    width: 4em;
+    height: 7em;
+    transform: rotateZ(0);
+}
+
+.loader h1{
+    flex-basis: 100%;
+    text-align: center;
+    color: white;
+    margin-top: -5%;
+    font-style: italic;
+}
