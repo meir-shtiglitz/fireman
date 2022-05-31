@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
-import { useEffect, useState } from "react/cjs/react.development";
+import { useEffect, useState } from "react";
 
 const Stars = ({ starsNum, editMode, func }) => {
 

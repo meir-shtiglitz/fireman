@@ -17,6 +17,7 @@ const contactRoute = require('./routes/contact');
 const recommendRoute = require('./routes/recommend');
 const assetsRoute = require('./routes/media');
 const videosRoute = require('./routes/videos');
+const path = require("path");
 
 const { uploadFiles } = require('./controlers/uploadAssets');
 
@@ -51,6 +52,15 @@ app.use('/api/contact', contactRoute);
 app.use('/api/recommend', recommendRoute);
 app.use('/api/media', assetsRoute);
 app.use('/api/videos', videosRoute);
+
+// trieng to load the client from server
+const buildPath = path.join(__dirname, '..', 'client', 'build');
+app.use(express.static(buildPath));
+
+app.get('*', (req, res, next) => {
+  res.sendFile(`${buildPath}/index.html`);
+})
+
 
 const port = process.env.PORT || 3030;
 app.listen(port, () => {
