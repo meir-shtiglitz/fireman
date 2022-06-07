@@ -20,7 +20,7 @@ const Nav = () => {
             <div className={`collapse navbar-collapse ${showeNav && 'show'}`} id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item active">
-                        <NavLink activeClassName="active" style={ ({isActive}) => setIsHomeActive(isActive)} className="nav-link" to="/">בית</NavLink>
+                        <NavLink exact activeClassName="active" style={ ({isActive}) => setIsHomeActive(isActive)} className="nav-link" to="/">בית</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink exact activeClassName="active" className="nav-link" to="/#about">קצת עלי</NavLink>
@@ -34,9 +34,9 @@ const Nav = () => {
                     <li className="nav-item">
                         <NavLink activeClassName="active" exact className="nav-link" to="/recommends">המלצות</NavLink>
                     </li>
-                    <li className="nav-item">
+                    {/* <li className="nav-item">
                         <NavLink activeClassName="active" exact className="nav-link" to="/magics/word">קסמים</NavLink>
-                    </li>
+                    </li> */}
                     <li className="nav-item">
                         <NavLink activeClassName="active" exact className="nav-link" to="/#contact">צור קשר</NavLink>
                     </li>

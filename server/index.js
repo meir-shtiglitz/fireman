@@ -58,7 +58,12 @@ const buildPath = path.join(__dirname, '..', 'client', 'build');
 app.use(express.static(buildPath));
 
 app.get('*', (req, res, next) => {
-  res.sendFile(`${buildPath}/index.html`);
+  console.log('req.baseUrl',req.baseUrl)
+  if(req.baseUrl.includes('api')){
+    res.sendFile(`${buildPath}/index.html`);
+  } else{
+    next()
+  }
 })
 
 

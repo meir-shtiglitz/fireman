@@ -1,5 +1,5 @@
 const initialState = {
-    user: null,
+    user: {},
     token: null,
     isAdmin: null
 }
@@ -10,7 +10,7 @@ export const User = (state = initialState, {type, payload}) => {
 
         case('AUTH_FAIL'):
         case('LOG_OUT'):
-        return {...state, ...initialState, isAdmin: false};
+        return {...state, ...initialState, user: null, isAdmin: false};
 
         default:
             return state

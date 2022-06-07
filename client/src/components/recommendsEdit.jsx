@@ -6,6 +6,7 @@ import "../css/recommendsEdit.css";
 import InputFiles from "./inputFiles";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetRecommends, actSendRecommend } from "../redux/actions/recommends";
+import Swal from 'sweetalert2'
 
 const { useState } = require("react")
 
@@ -76,6 +77,12 @@ const RecommendEdit = () => {
         console.log("images from component", images);
         // sendRecommendApi(fields, images);
         dispatch(actSendRecommend(fields, images));
+        Swal.fire({
+            icon: "success",
+            title: "תודה רבה על המשוב",
+            titleText: "המשוב נשלח לאישור בטרם יפורסם",
+            cancelButtonText: "בחזרה לאתר"
+        })
     }
 
     return (

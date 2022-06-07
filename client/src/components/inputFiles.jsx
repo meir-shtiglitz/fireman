@@ -3,7 +3,6 @@ import { apiUploadFiles } from "../api/uploadFiles";
 import { validFile, validImage } from "../controlers/validFiles";
 
 const InputFiles = ({ change, uploadMode }) => {
-
     const [files, setFiles] = useState();
 
     const filesUp = (e) => {
