@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
+import { useEffect } from "react";
 import { getRecommendApi, sendRecommendApi } from "../api/recommend";
 import Stars from "./stars";
-import "../css/recommendsEdit.css";
+import "../css/recommendsEdit.scss";
 import InputFiles from "./inputFiles";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetRecommends, actSendRecommend } from "../redux/actions/recommends";
@@ -47,7 +47,7 @@ const RecommendEdit = () => {
 
     const getMedia = () => (
         fields.media && fields.media.map((m, i) => <div key={m._id} className="img-item">
-            {m.type === 'image' ? <img width={100} src={m.url} /> : <video controls width={150} src={m.url}>סרטון לא נתמך</video>}
+            {m.type === 'image' ? <img width={100} src={m.url} /> : <video controls width={150} height={100} src={m.url}>סרטון לא נתמך</video>}
             <button type="button" onClick={() => removeMedia(m._id)} className="btn btn-danger">X</button></div>
         )
     )
@@ -77,20 +77,21 @@ const RecommendEdit = () => {
         console.log("images from component", images);
         // sendRecommendApi(fields, images);
         dispatch(actSendRecommend(fields, images));
+        if (isAdmin) return navigate('/recommends');
         Swal.fire({
             icon: "success",
             title: "תודה רבה על המשוב",
             titleText: "המשוב נשלח לאישור בטרם יפורסם",
-            cancelButtonText: "בחזרה לאתר"
-        })
+            confirmButtonText: "בחזרה לאתר"
+        }).then(()=> navigate('/'))
     }
 
     return (
-        <div id="recommend">
-
+        <div id="recommend-edit">
             {console.log("recommend edit ", fields)}
             {console.log("recommends from edit return", recommends)}
-            <form className="row col-sm-6 m-auto" onSubmit={sendRecommend}>
+            <form className="row col-sm-6 m-auto mt-3 p-3" onSubmit={sendRecommend}>
+                <h1 className="text-center">משוב</h1>
                 <div className="form-group col-sm-12">
                     <label htmlFor="title">כותרת:</label>
                     <input onInput={inputer} id="title" name="title" value={fields.title} type="text" className="form-control" />
@@ -118,14 +119,15 @@ const RecommendEdit = () => {
                     <label>תמונות:</label>
                     <div className="current-images">{getMedia()}</div>
                 </div>
-                <div className="form-group col-6">
+                <div className="form-group col-6 mb-5">
+                    {images && <p>שימו לב צירוף מדיה מהווה אישור לפירסומה באתר</p>}
                     <InputFiles change={setImages} />
                 </div>
                 {isAdmin && <div className="form-group col-6">
                     <label htmlFor="public">אישור פירסום: </label>
                     <input onChange={changePublic} type="checkbox" name="public" id="public" />
                 </div>}
-                <button className="btn btn-primary">שלח</button>
+                <button className="btn btn-primary btn-main">שלח</button>
             </form>
         </div>
     )

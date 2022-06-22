@@ -15,15 +15,15 @@
     margin: auto;
     text-align: center;
     display: inherit;
-    background-color: $mainColor !important;
+    background-color: complement($mainColor )  !important;
     z-index: 5;
     padding: 0 15%;
     justify-content: center;
     display: flex;
     margin: auto;
-    color: white !important;
+    color: $mainColor !important;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     align-self: center;
     justify-self: center;
     
@@ -37,7 +37,7 @@
     }
 
     a.nav-link{
-      color: white !important;
+      color: $mainColor !important;
       font-weight: bold;
       font-size: 30px;
       display: inherit;

@@ -1,0 +1,12 @@
+@import 'vars.scss';
+
+#recommend-edit form{
+    border: solid 1px $mainColor;
+    color: $mainColor;
+    border-radius: 10px;
+}
+
+
+.current-images{
+    display: flex;
+}

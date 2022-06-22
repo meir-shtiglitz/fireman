@@ -59,7 +59,7 @@ app.use(express.static(buildPath));
 
 app.get('*', (req, res, next) => {
   console.log('req.baseUrl',req.baseUrl)
-  if(req.baseUrl.includes('api')){
+  if(!req.baseUrl.includes('api')){
     res.sendFile(`${buildPath}/index.html`);
   } else{
     next()

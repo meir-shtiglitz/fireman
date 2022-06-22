@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useState } from "react/cjs/react.development";
+import { useState } from "react";
 import { actLogin, actRegister } from "../redux/actions/user";
 
 const Auth = ({regMode}) => {
