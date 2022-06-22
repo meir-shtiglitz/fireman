@@ -2,7 +2,7 @@
 @import 'vars.scss';
 
 .view-galery{
-    background-color: $mainColor;
+    background-color: complement($mainColor);
     overflow: hidden;
 }
 .view-galery img{
