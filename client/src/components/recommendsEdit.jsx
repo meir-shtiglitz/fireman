@@ -7,10 +7,12 @@ import InputFiles from "./inputFiles";
 import { useDispatch, useSelector } from "react-redux";
 import { actGetRecommends, actSendRecommend } from "../redux/actions/recommends";
 import Swal from 'sweetalert2'
+import { UseKeyboardClick } from "../hooks/useKeyboardClick";
 
-const { useState } = require("react")
+const { useState } = require("react");
 
 const RecommendEdit = () => {
+    const keyboardPress = UseKeyboardClick('Enter', sendRecommend)
     const navigate = useNavigate();
     const { recID } = useParams();
     const dispatch = useDispatch();
@@ -71,8 +73,8 @@ const RecommendEdit = () => {
         setFields({ ...fields, public: newPublic })
     }
 
-    const sendRecommend = (e) => {
-        e.preventDefault();
+    function sendRecommend(e){
+        e && e.preventDefault();
         console.log(fields);
         console.log("images from component", images);
         // sendRecommendApi(fields, images);

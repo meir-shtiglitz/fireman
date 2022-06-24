@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import {Carousel as Car} from "react-responsive-carousel";
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import "../css/carousel.scss";
+import { UseKeyboardClick } from "../hooks/useKeyboardClick";
 
 const Carousel = ({children, autoPlay, imageDots, currentImage, arrows=true}) => {
-    
+    const rightKeyListener = UseKeyboardClick('ArrowRight', change)
+    const lefttKeyListener = UseKeyboardClick('ArrowLeft', ()=> change('minus'))
     const [currentItem, setCurrentItem] = useState(currentImage || 0);
 
     const [items, setItems] = useState(children);
@@ -18,7 +20,7 @@ const Carousel = ({children, autoPlay, imageDots, currentImage, arrows=true}) =>
         }
     }, [])
 
-    const change = (num) => {
+    function change(num){
         let itemsLength;
         setItems(prevItems => {
             itemsLength = prevItems.length - 1;
