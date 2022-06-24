@@ -48,8 +48,8 @@ function App() {
           <Route exact path="/" element={<AdminRoute Component={<Home />} />} />
           <Route exact path="/login" element={<Auth />} />
           <Route exact path="/register" element={<Auth regMode={true} />} />
-          <Route exact path="/about" element={<About />} />
-          <Route exact path="/contact" element={<Contact />} />
+          {/* <Route exact path="/about" element={<About />} /> */}
+          {/* <Route exact path="/contact" element={<Contact />} /> */}
           {/* <Route exact path="/galery" element={<MyGallery />} /> */}
           <Route exact path="/galery" element={<AdminRoute Component={<MyGallery />} />} />
 

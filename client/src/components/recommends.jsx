@@ -40,7 +40,7 @@ const Recommends = ({ carouselMode }) => {
             <div className="recommends col-12">
                 {allItems && publishItems && carouselMode &&
                     <Carousel autoPlay>
-                        {publishItems.map((pi, i) => <div className={`recommend col-sm-5 ${!(i % 2) && 'right'}`}><Recommend key={pi._id} item={pi} /></div>)}
+                        {publishItems.map((pi, i) => <div key={pi._id} className={`recommend col-sm-5 ${!(i % 2) && 'right'}`}><Recommend item={pi} /></div>)}
                     </Carousel>
                 }
                 {allItems && publishItems && !carouselMode &&

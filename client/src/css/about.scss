@@ -27,25 +27,26 @@ li.type-line {
 
     
     .about-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         white-space: pre-wrap;
         position: relative;
         text-align: center;
-        padding: 0 4%;
-        font-size: 1.3em;
+        padding: 0 6%;
+        font-size: 1.4em;
         font-weight: bold;
-        color: black;
+        color: white;
 
         img {
             position: absolute;
             z-index: -1;
             right: 0;
             object-fit: cover;
-            height: 100%;
+            width: 100%;
         }
         p{
-            position: relative;
-            left: -15%;
-            padding: 5% 0;
+            margin: 0;
         }
     }
 }
