@@ -3,7 +3,8 @@ import { actDeleteMedia, actGetMedia, actPublishMedia } from "../redux/actions/m
 import { useDispatch, useSelector } from "react-redux";
 import UseCloseOnClick from "../hooks/closeOnClick";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faEyeSlash, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
+import "../css/videos.scss";
 
 const Videos = () => {
     const dispatch = useDispatch();
@@ -41,16 +42,17 @@ const Videos = () => {
                 {console.log('videos from component', videos)}
                 {playVideo && <div className="overlay">
                     <div ref={refNotClose} className="in-overlay">
-                        <video autoPlay controlsList="nodownload" preload="metadata" src={playVideo + '#t=2'} width={700} controls height={500}>
+                        <video className="main-video" autoPlay controlsList="nodownload" preload="metadata" src={playVideo + '#t=2'} width={700} controls height={500}>
                             video is not supported
                         </video>
                     </div>
                 </div>}
 
-                <div className="video-list">
+                <div className="video-list row align-center">
                     {videos.filter(v => v.publish || isAdmin).map((v, i) =>
-                        <div key={v._id} className="video-item">
-                            <video onClick={(e) => playMe(e, v)} src={v.url + '#t=2'} width={300} height={200}>
+                        <div key={v._id} className="video-item col-sm-4 mt-5">
+                            <FontAwesomeIcon className="play-icon" icon={faPlayCircle} />
+                            <video onClick={(e) => playMe(e, v)} src={v.url + '#t=2'}>
                                 video is not supported
                             </video>
                             {isAdmin && <div className="video-controls">

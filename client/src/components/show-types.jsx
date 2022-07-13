@@ -6,7 +6,7 @@ const ShowTypes = () => {
     const types = [
         {
             title: 'ימי הולדת',
-            tags: ['חתן/כלת היומולדת הם כוכבי האירוע', 'מוזיקה', 'מזכרת', 'הומור וצחוק', 'ארוע בלתי נשכח']
+            tags: ['ילד היומולדת הוא כוכב האירוע', 'מוזיקה', 'מזכרת', 'הומור וצחוק', 'ארוע בלתי נשכח']
         },
         {
             title: 'בתי ספר - מתנסים',
@@ -20,7 +20,7 @@ const ShowTypes = () => {
 
     return(
         <div className="show-types row">
-            {types.map((t,i) => <div key={i} className="show-type col-sm-3 text-center m-auto card">
+            {types.map((t,i) => <div key={i} className="show-type col-sm-3 text-center card">
                 <div className="card-header">
                     <h2 className="card-title">{t.title}</h2>
                 </div>

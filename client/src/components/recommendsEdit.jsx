@@ -117,7 +117,7 @@ const RecommendEdit = () => {
                     <label htmlFor="location">מקום ההופעה:</label>
                     <input onInput={inputer} id="location" name="location" value={fields.location} type="text" className="form-control" />
                 </div>
-                <div className="form-group col-6">
+                <div className="form-group col-sm-6">
                     <label>תמונות:</label>
                     <div className="current-images">{getMedia()}</div>
                 </div>

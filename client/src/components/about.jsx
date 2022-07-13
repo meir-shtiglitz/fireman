@@ -16,7 +16,7 @@ const About = () => {
             <div className="about-car col-sm-5">
                 <HomeHerro />
             </div>
-            <div className="about-shows col-sm-12">
+            <div className="about-shows col-sm-12 mt-5">
                 <ShowTypes />
             </div>
             {/* <div className="about-recommends col-sm-12">
