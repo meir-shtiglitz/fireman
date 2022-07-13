@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import "../css/homeHerro.scss";
+import "../css/type-writer.scss";
 import Carousel from "./carousel";
 import text from "../assets/text.json"
 
@@ -12,8 +13,8 @@ const HomeHerro = () => {
             <div className="herro-carousel">
                 <div className="text">
                     <div>
-                        <h1>{text.herro.title}</h1>
-                        <h2>{text.herro.subtitle}</h2>
+                        <h1>{text.herro.title}<span className="type-writer"></span></h1>
+                        <h2 className="fire-shadow">{text.herro.subtitle}</h2>
                     </div>
                 </div>
                 {topImages.length && <Carousel arrows={false} autoPlay>

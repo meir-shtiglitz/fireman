@@ -1,0 +1,37 @@
+.videos {
+    .main-video{
+        background-color: black;
+        padding: 0% 6%;
+        border-radius: 10px;
+        margin: auto;
+    }
+    .video-list {
+        padding: 0 2%;
+        justify-content: space-between;
+
+        .video-item {
+            cursor: pointer;
+            max-height: 300px;
+            justify-content: center;
+            display: flex;
+            flex-wrap: wrap;
+
+            .play-icon {
+                display: flex;
+                position: absolute;
+                font-size: 6vw;
+                justify-self: center;
+                align-self: center;
+                color: #bf0100;
+            }
+
+            video {
+                height: 100%;
+                background-color: black;
+                padding: 3% 5%;
+                border-radius: 10px;
+                width: 100%;
+            }
+        }
+    }
+}

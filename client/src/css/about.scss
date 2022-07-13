@@ -1,12 +1,5 @@
 @import 'vars.scss';
 
-li.type-line {
-    display: flex;
-    justify-content: space-between;
-    width: 75%;
-    margin: auto;
-}
-
 #about{
     display: flex;
     justify-content: space-between;
@@ -36,9 +29,10 @@ li.type-line {
         padding: 0 6%;
         font-size: 1.4em;
         font-weight: bold;
-        color: white;
+        color: $mainColor;
 
         img {
+            height: 500px;
             position: absolute;
             z-index: -1;
             right: 0;
@@ -47,6 +41,42 @@ li.type-line {
         }
         p{
             margin: 0;
+        }
+    }
+
+    .show-types{
+        justify-content: space-between;
+
+        .card{
+            color: $mainColor;
+            border: solid 1px complement($mainColor);
+
+            .card-header{
+                background-color: complement($mainColor);
+            }
+            .card-body{
+                flex: auto;
+            }
+            ul{
+                margin: 0;
+                display: flex;
+                height: 100%;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            li.type-line {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                margin: auto;
+            }
+            .card-footer{
+                border:solid 1px complement($mainColor);
+                a.btn{
+                    width: 100%;
+                    background-color: $mainColor;
+                }
+            }
         }
     }
 }
