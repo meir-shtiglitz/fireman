@@ -82,6 +82,7 @@ opacity:1;
 .herro-carousel {
   /* height: 700px; */
   height: 500px;
+  position: relative;
 }
 
 .herro-carousel::after {
@@ -144,7 +145,7 @@ opacity:1;
   text-shadow: 0 0 5px black;
   z-index: 4;
   width: 100%;
-  height: 70%;
+  height: 100%;
 }
 
 .herro-carousel .text h1,
@@ -172,10 +173,6 @@ opacity:1;
 }
 
 @media screen and (max-width:600px) {
-
-  .herro-carousel .text {
-    height: 100%;
-  }
 
   .herro-carousel .text h1,
   .herro-carousel .text h2 {

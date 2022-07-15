@@ -124,3 +124,10 @@
 .dots-item.active {
   border: solid 3px black;
 }
+
+@media screen and (max-width: 600px) {
+  .car-item.active{
+    width: 100vw;
+    padding: 1rem 1rem;
+}
+}

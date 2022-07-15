@@ -191,13 +191,13 @@ const MyGallery = () => {
       {console.log("images",images)}
       <ViewGalery images={images}  currentImage={openLightbox} />
       {viewerIsOpen ? (
-        <div ref={refToClose} className="overlay">
-          <div className="in-overlay">
+        <div className="overlay">
+          <div ref={refToClose} className="in-overlay">
             {/* <button onClick={closeLightbox} className="btn btn-danger close-btn">X</button> */}
             <Carousel currentImage={currentImage} imageDots={true} >
-              {photos.map((p, index) => <div key={p._id}>
+              {photos.map((p, index) => <>
                 <img src={p.src} />
-              </div>)}
+              </>)}
             </Carousel>
           </div>
         </div>
