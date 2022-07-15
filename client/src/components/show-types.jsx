@@ -19,7 +19,7 @@ const ShowTypes = () => {
     ]
 
     return(
-        <div className="show-types row">
+        <div className="show-types row bs-none">
             {types.map((t,i) => <div key={i} className="show-type col-sm-3 text-center card">
                 <div className="card-header">
                     <h2 className="card-title">{t.title}</h2>
@@ -32,7 +32,7 @@ const ShowTypes = () => {
                     </ul>
                 </div>
                 <div className="card-footer">
-                    <Link to='/contact' className="btn btn-secondary">הזמינו הופעה</Link>
+                    <Link to='/#contact' className="btn btn-secondary">הזמינו הופעה</Link>
                 </div>
             </div>)}
         </div>

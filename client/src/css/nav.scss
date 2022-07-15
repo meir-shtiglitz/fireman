@@ -57,6 +57,10 @@
     position: absolute;
     top: 0;
   }
+  ul.navbar-nav {
+    border-bottom: solid 3px white; 
+    padding: 0;
+  }
   .wrap-nav nav.navbar {
     align-items: center;
     padding: 1vw;
@@ -65,6 +69,10 @@
   
   button{
     margin-top: 7%;
+  }
+  a.active.selected {
+    border-bottom: none;
+    color: #f06601 !important;
   }
 }
 }
