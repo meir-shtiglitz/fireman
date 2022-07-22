@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { sendContactMail } from "../api/contact";
+import "../css/contact.scss"
 
 const Contact = () => {
 

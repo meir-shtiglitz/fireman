@@ -1,24 +1,26 @@
 @import 'vars.scss';
 
-#about{
+#about {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
     padding: 2% 4%;
-    
-    .herro-carousel{
-        .text{
+
+    .herro-carousel {
+        .text {
             display: none;
         }
 
         .active img {
             width: 48%;
         }
-    }:after{
+    }
+
+    :after {
         content: none;
     }
 
-    
+
     .about-text {
         display: flex;
         justify-content: center;
@@ -39,44 +41,80 @@
             object-fit: cover;
             width: 100%;
         }
-        p{
+
+        p {
             margin: 0;
         }
     }
 
-    .show-types{
+    .show-types {
         justify-content: space-between;
 
-        .card{
+        .card {
             color: $mainColor;
             border: solid 1px complement($mainColor);
 
-            .card-header{
+            .card-header {
                 background-color: complement($mainColor);
             }
-            .card-body{
+
+            .card-body {
                 flex: auto;
             }
-            ul{
+
+            ul {
                 margin: 0;
                 display: flex;
                 height: 100%;
                 flex-direction: column;
                 justify-content: space-between;
             }
+
             li.type-line {
                 display: flex;
                 justify-content: space-between;
                 width: 100%;
                 margin: auto;
             }
-            .card-footer{
-                border:solid 1px complement($mainColor);
-                a.btn{
+
+            .card-footer {
+                border: solid 1px complement($mainColor);
+
+                a.btn {
                     width: 100%;
                     background-color: $mainColor;
                 }
             }
         }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #about {
+        margin-top: 15%;
+        .about-car{
+            width: 100%;
+            .herro-carousel {
+                .active img {
+                    width: 100%;
+                }
+            }
+        }
+        .show-type{
+            margin-bottom: 10%;
+        }
+
+        
+
+    .about-text {
+        padding: 3% 6%;
+        margin-bottom: 60%;
+
+        img {
+            height: 140%;
+            width: 100%;
+        }
+    }
+
     }
 }
