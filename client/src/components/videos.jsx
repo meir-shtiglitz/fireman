@@ -42,7 +42,7 @@ const Videos = () => {
                 {console.log('videos from component', videos)}
                 {playVideo && <div className="overlay">
                     <div ref={refNotClose} className="in-overlay">
-                        <video className="main-video" autoPlay controlsList="nodownload" preload="metadata" src={playVideo + '#t=2'} width={700} controls height={500}>
+                        <video className="main-video" autoPlay controlsList="nodownload" preload="metadata" src={playVideo + '#t=2'} controls>
                             video is not supported
                         </video>
                     </div>

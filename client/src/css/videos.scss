@@ -4,6 +4,8 @@
         padding: 0% 6%;
         border-radius: 10px;
         margin: auto;
+        height: 80vh;
+        width: 70vw;
     }
     .video-list {
         padding: 0 2%;
@@ -32,6 +34,15 @@
                 border-radius: 10px;
                 width: 100%;
             }
+        }
+    }
+}
+
+@media screen and (max-width:600px) {
+    .videos {
+        .main-video{
+            height: 80%;
+            width: 90%;
         }
     }
 }
