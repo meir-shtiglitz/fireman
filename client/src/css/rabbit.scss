@@ -3,6 +3,7 @@
 .rabbit-wrap { 
     background: complement($color: ($mainColor)); 
     font-family: "Trebuchet MS", Helvetica, sans-serif;
+    margin-top: 150px;
   }
   
   .rabbit {
@@ -48,7 +49,7 @@
       90% { transform: rotate(0deg); } 
     }
   @keyframes moveLeft {
-        0% { transform: rotate(0deg);} 
+      0% { transform: rotate(0deg);} 
       70% { transform: rotate(0deg); } 
       80% { transform: rotate(-15deg); } 
       90% { transform: rotate(0deg); }
@@ -198,7 +199,7 @@
     align-items: center;
     z-index: 3;
     width: 100px;
-    height: 200px;
+    height: 150px;
   }
   
   .magic-trick {
