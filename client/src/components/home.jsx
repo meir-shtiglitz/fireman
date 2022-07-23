@@ -6,7 +6,6 @@ import HomeHerro from "./home-herro";
 import Recommends from "./recommends";
 import "../css/home.scss";
 import Contact from "./contact";
-import Rabbit from "./rabbit";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -29,12 +28,7 @@ const Home = () => {
             </div>
             <div className="row">
                 <div className="home-contact col-sm-12 row">
-                    <div className="col-sm-6">
                         <Contact />
-                    </div>
-                    <div className="home-rabbit col-sm-6">
-                        <Rabbit />
-                    </div>
                 </div>
             </div>
 
