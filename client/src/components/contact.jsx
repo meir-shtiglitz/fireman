@@ -24,13 +24,13 @@ const Contact = () => {
     }
 
     return (
-        <div id="contact" className="row container m-auto">
+        <div id="contact" className="row p-0 bs-none container m-auto">
                 <form className="col-sm-4" onSubmit={sendMail}>
                     <div className="form-group">
                         <label htmlFor="email">כתובת מייל:</label>
                         <input onInput={inputer} id="email" value={fields.mailUser} name="mailUser" type="email" className="form-control" />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group second">
                         <label htmlFor="email">תוכן ההודעה:</label>
                         <textarea onInput={inputer} id="message" value={fields.msg} name="msg" cols={30} rows={10} type="text" className="form-control"></textarea>
                     </div>
