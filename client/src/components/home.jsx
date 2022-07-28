@@ -27,8 +27,8 @@ const Home = () => {
                 </div>
             </div>
             <div className="row">
-                <div className="home-contact col-sm-12 row">
-                        <Contact />
+                <div className="home-contact bs-none col-sm-12 row">
+                    <Contact />
                 </div>
             </div>
 
