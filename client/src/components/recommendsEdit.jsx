@@ -90,8 +90,6 @@ const RecommendEdit = () => {
 
     return (
         <div id="recommend-edit">
-            {console.log("recommend edit ", fields)}
-            {console.log("recommends from edit return", recommends)}
             <form className="row col-sm-6 m-auto mt-3 p-3" onSubmit={sendRecommend}>
                 <h1 className="text-center">משוב</h1>
                 <div className="form-group col-sm-12">
