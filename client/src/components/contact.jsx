@@ -21,6 +21,7 @@ const Contact = () => {
         e.preventDefault();
         console.log(fields);
         sendContactMail(fields);
+        setFields({ mailUser: '', msg: ''})
     }
 
     return (

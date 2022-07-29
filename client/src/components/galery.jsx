@@ -193,7 +193,7 @@ const MyGallery = () => {
       {viewerIsOpen ? (
         <div className="overlay">
           <div ref={refToClose} className="in-overlay">
-            {/* <button onClick={closeLightbox} className="btn btn-danger close-btn">X</button> */}
+            <button onClick={closeLightbox} className="btn btn-danger in-mobile close-btn">X</button>
             <Carousel currentImage={currentImage} imageDots={true} >
               {photos.map((p, index) => <>
                 <img src={p.src} />

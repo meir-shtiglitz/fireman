@@ -4,6 +4,9 @@
 .row.bs-none{
     --bs-gutter-x:0 !important;
 }
+.in-mobile{
+    display: none !important;
+}
 .overlay{
     position: fixed;
     z-index: 10;
@@ -27,6 +30,9 @@
 }
 
 @media screen and (max-width:780px) {
+    .in-mobile{
+        display: inherit !important;
+    }
     .in-overlay{
         top: 0;
         bottom: 0;

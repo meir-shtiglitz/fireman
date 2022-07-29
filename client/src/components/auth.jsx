@@ -1,8 +1,10 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { actLogin, actRegister } from "../redux/actions/user";
+import { useNavigate } from "react-router-dom";
 
 const Auth = ({regMode}) => {
+    const navigate = useNavigate()
 
     const [fields, setFields] = useState({
         email: '',
@@ -21,6 +23,7 @@ const Auth = ({regMode}) => {
         e.preventDefault();
         console.log(fields);
         registerMode ? dispatch(actRegister(fields)) : dispatch(actLogin(fields));
+        navigate('/')
     }
 
     const changeMode = () => {
