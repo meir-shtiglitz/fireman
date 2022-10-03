@@ -4,6 +4,7 @@ import Carousel from "./carousel";
 import Recommend from "./recommend";
 import { actGetRecommends } from "../redux/actions/recommends";
 import { useSelector, useDispatch } from "react-redux";
+import NewRecommend from "./new-recommend";
 
 const Recommends = ({ carouselMode }) => {
 
@@ -44,7 +45,10 @@ const Recommends = ({ carouselMode }) => {
                     </Carousel>
                 }
                 {allItems && publishItems && !carouselMode &&
-                    (isAdmin ? allItems : publishItems).map((item, index) => <div key={item._id} className={`recommend col-sm-4 ${getLocationClass(index)}`}><Recommend admin={isAdmin} item={item} /></div>)
+                    <>
+                        {isAdmin && <div className="open-recommend"><NewRecommend /></div>}
+                        {(isAdmin ? allItems : publishItems).map((item, index) => <div key={item._id} className={`recommend col-sm-4 ${getLocationClass(index)}`}><Recommend admin={isAdmin} item={item} /></div>)}
+                    </>
                 }
             </div>
         </>
