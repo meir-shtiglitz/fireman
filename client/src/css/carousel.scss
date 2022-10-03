@@ -1,5 +1,14 @@
 @import 'vars.scss';
 
+.open-recommend{
+  flex-basis: 100%;
+
+  button{
+    background-color: complement($mainColor);
+    color: $mainColor;
+  }
+}
+
 .wrap-car * {
     box-sizing: border-box;
   }

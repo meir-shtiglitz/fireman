@@ -28,8 +28,7 @@ const NewRecommend = () => {
     return (
         <div className="new-recommend row pt-5">
             <div className="col-sm-12 m-auto text-center">
-                <h2>יצירת קישור המלצה</h2>
-                <button onClick={!recLink ? newRec : copyLink} className="btn btn-primary">{recLink ? 'העתק קישור' : 'פתח המלצה'}</button>
+                <button onClick={!recLink ? newRec : copyLink} className="btn">{recLink ? 'העתק קישור' : 'פתח המלצה חדשה'}</button>
                 {showAlert && <div className="alert alert-secondary">הקישור הועתק</div>}
             </div>
         </div>

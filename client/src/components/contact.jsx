@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faComment } from '@fortawesome/free-regular-svg-icons'
 import "../css/contact.scss"
 import Rabbit from "./rabbit";
+import Swal from "sweetalert2";
 
 const Contact = () => {
 
@@ -21,6 +22,11 @@ const Contact = () => {
         e.preventDefault();
         console.log(fields);
         sendContactMail(fields);
+        Swal.fire({
+            icon: "success",
+            title: "ההודעה נשלחה בהצלחה",
+            confirmButtonText: "בחזרה לאתר"
+        }).then((res)=> console.log(res))
         setFields({ mailUser: '', msg: ''})
     }
 
