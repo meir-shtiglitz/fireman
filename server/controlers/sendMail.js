@@ -1,6 +1,9 @@
 const nodemailer = require("nodemailer");
 const { google } = require('googleapis');
 
+const sgMail = require('@sendgrid/mail')
+
+
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const redirect_uri = process.env.REDIRECT_URI;
@@ -10,39 +13,22 @@ const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_u
 oAuth2Client.setCredentials({ refresh_token })
 
 const sendMail = async (sub, body, html) => {
-  try {
-    const accessToken = await oAuth2Client.getAccessToken();
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      // port: 465,
-      // secure: true,
-      auth: {
-        type: "OAuth2",
-        user: "misternet101@gmail.com",
-        clientId: client_id,
-        clientSecret: client_secret,
-        refreshToken: refresh_token,
-        accessToken: accessToken,
-      },
-    });
-
-    let info = await transporter.sendMail({
-      from: `"FIREMAN" <${process.env.MAIL_USER}>`,
-      to: process.env.MAIL_ADMIN,
-      subject: sub,
-      text: body,
-      html: html
-    });
-    
-    console.log("Message sent: %s", info);
-    
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    
-    
-  } catch (error) {
-    console.log('error send mail:', error)
-    return error
+  console.log('from email sendhng')
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+  const msg = {
+    to: process.env.MAIL_ADMIN,
+    from: `FIREMAN <${process.env.MAIL_USER}>`,
+    subject: sub,
   }
+  html ? msg.html = html : msg.text = body;
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 }
 
 
