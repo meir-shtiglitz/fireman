@@ -10,7 +10,7 @@ const NewRecommend = () => {
         e.target.disabled = true;
         const recID = await newRecommendApi();
         console.log('from new rec func', recID);
-        const link = `${window.location.href.split('/new')[0]}/recommend/edit/${recID}`;
+        const link = `${window.location.href.split('/recommends')[0]}/recommend/edit/${recID}`;
         console.log('link', link);
         setRecLink(link);
         e.target.disabled = false;

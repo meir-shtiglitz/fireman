@@ -1,16 +1,4 @@
-const nodemailer = require("nodemailer");
-const { google } = require('googleapis');
-
 const sgMail = require('@sendgrid/mail')
-
-
-const client_id = process.env.CLIENT_ID;
-const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = process.env.REDIRECT_URI;
-const refresh_token = process.env.REFRESH_TOKEN;
-
-const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uri);
-oAuth2Client.setCredentials({ refresh_token })
 
 const sendMail = async (sub, body, html) => {
   console.log('from email sendhng')
