@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "preinstall": "echo start install all",
+    "postinstall": "echo finish installing all",
     "install": "cd client && npm install && npm run build && cd .. && cd server && npm install",
     "start": "cd server && node index",
     "test": "echo \"Error: no test specified\" && exit 1"

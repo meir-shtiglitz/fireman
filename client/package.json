@@ -31,6 +31,8 @@
     "web-vitals": "^2.1.3"
   },
   "scripts": {
+    "preinstall": "echo 'start install client'",
+    "postinstall": "echo finish installing client",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
