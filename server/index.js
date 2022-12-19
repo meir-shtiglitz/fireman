@@ -54,7 +54,7 @@ app.use('/api/media', assetsRoute);
 app.use('/api/videos', videosRoute);
 
 // trieng to load the client from server
-const buildPath = path.join(__dirname, '..', 'client', 'build');
+const buildPath = path.join(__dirname, 'build');
 app.use(express.static(buildPath));
 
 app.get('*', (req, res, next) => {
@@ -66,6 +66,9 @@ app.get('*', (req, res, next) => {
   }
 })
 
+app.get('/test', (req, res) => {
+  res.send('it works :)')
+})
 
 const port = process.env.PORT || 3030;
 app.listen(port, () => {
