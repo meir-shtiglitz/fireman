@@ -34,7 +34,7 @@
     "preinstall": "echo 'start install client'",
     "postinstall": "echo finish installing client",
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp -R build ../server",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

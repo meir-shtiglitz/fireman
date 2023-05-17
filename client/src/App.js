@@ -45,22 +45,22 @@ function App() {
       <div className="App">
         <Routes>
           {/* <Route exact path="/" element={<Home />} /> */}
-          <Route exact path="/" element={<AdminRoute Component={<Home />} />} />
+          <Route exact path="/" element={<Home />} />
           <Route exact path="/login" element={<Auth />} />
           <Route exact path="/register" element={<Auth regMode={true} />} />
           {/* <Route exact path="/about" element={<About />} /> */}
           {/* <Route exact path="/contact" element={<Contact />} /> */}
           {/* <Route exact path="/galery" element={<MyGallery />} /> */}
-          <Route exact path="/galery" element={<AdminRoute Component={<MyGallery />} />} />
+          <Route exact path="/galery" element={<MyGallery />} />
 
           {/* <Route path="/magics/word" element={<MagicWord />} /> */}
           <Route path="/fire" element={<Fire />} />
           <Route path="/car" element={<Carousel />} />
           <Route path="/new/recommend" element={<NewRecommend />} />
-          <Route path="/recommends" element={<AdminRoute Component={<Recommends />} />} />
+          <Route path="/recommends" element={<Recommends />} />
           <Route path="/recommend/edit/:recID" element={<RecommendEdit />} />
           {/* <Route path="videos" element={<Videos />} /> */}
-          <Route exact path="/videos" element={<AdminRoute Component={<Videos />} />} />
+          <Route exact path="/videos" element={<Videos />} />
           <Route path="aprove/video/:src/:ID" element={<AproveVideo />} />
           <Route path="uploadfiles" element={<AdminRoute Component={<InputFiles uploadMode={true} />}/>} />
           <Route path="/build/page" element={<InBuildPage />} />

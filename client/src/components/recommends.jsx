@@ -19,7 +19,7 @@ const Recommends = ({ carouselMode }) => {
         if (!recs || recs.length < 1) {
             dispatch(actGetRecommends());
         } else {
-            if (!recs || recs.length < 1) return;
+            if (!recs || !Array.isArray(recs) || recs.length < 1) return;
             setAllItems(recs);
             setPublishItems(recs.filter(item => item.public));
         }
