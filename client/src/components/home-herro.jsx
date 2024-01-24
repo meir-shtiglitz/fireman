@@ -6,7 +6,7 @@ import text from "../assets/text.json"
 
 const HomeHerro = () => {
     const { media } = useSelector(state => state.Media);
-    const topImages = media.filter(m => m.top) || [];
+    const topImages = media?.filter(m => m.top) || [];
 
     return (
         <div className="herro">

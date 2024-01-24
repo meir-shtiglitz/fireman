@@ -165,8 +165,8 @@ const MyGallery = () => {
 
   const dispatch = useDispatch()
   const { media } = useSelector(state => state.Media);
-  const images = media.filter(m => m.type === 'image');
-  const photos = images.map((img, index) => {
+  const images = media?.filter(m => m.type === 'image');
+  const photos = images?.map((img, index) => {
     return { ...img, src: img.url, width: (index % 2) + 3, height: (index % 2) + 3 }
   })
 

@@ -36,8 +36,8 @@ const RecommendEdit = () => {
         console.log('isAdmin', isAdmin);
         if (isAdmin) {
             if (recommends.length < 1) await dispatch(actGetRecommends());
-            console.log('recommend from effect', { ...[...recommends].filter(r => r._id == recID)[0] })
-            setFields({ ...initialRecommend, ...[...recommends].filter(r => r._id == recID)[0] });
+            console.log('recommend from effect', { ...[...recommends]?.filter(r => r._id == recID)[0] })
+            setFields({ ...initialRecommend, ...[...recommends]?.filter(r => r._id == recID)[0] });
         } else if (recID) {
             const rec = await getRecommendApi(recID);
             console.log('rec', rec)
@@ -55,7 +55,7 @@ const RecommendEdit = () => {
     )
 
     const removeMedia = (id) => {
-        const newMedia = fields.media.filter(m => m._id !== id);
+        const newMedia = fields?.media?.filter(m => m._id !== id);
         setFields({ ...fields, filesToDelete:[...fields.filesToDelete, id], media: newMedia })
     }
 

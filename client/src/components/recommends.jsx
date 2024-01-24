@@ -21,7 +21,7 @@ const Recommends = ({ carouselMode }) => {
         } else {
             if (!recs || !Array.isArray(recs) || recs.length < 1) return;
             setAllItems(recs);
-            setPublishItems(recs.filter(item => item.public));
+            setPublishItems(recs?.filter(item => item.public));
         }
 
     }, [recs])

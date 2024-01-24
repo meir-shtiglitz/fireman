@@ -15,7 +15,7 @@ export const actDeleteVideo = (id) => async dispatch => {
     console.log("res from action delete video", res);
     const state = store.getState();
     console.log("state from publish action",state);
-    const newVideos = state.Videos.videos.filter(vid => vid.ID !== id);
+    const newVideos = state.Videos?.videos?.filter(vid => vid.ID !== id);
     console.log("new videos", newVideos)
     return dispatch({type: "SET_VIDEOS", payload:{videos:newVideos}})
 }

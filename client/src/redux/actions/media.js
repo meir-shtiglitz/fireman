@@ -18,7 +18,7 @@ export const actDeleteMedia = (id) => async dispatch => {
     console.log("res from action delete media", res);
     const state = store.getState();
     console.log("state from publish action",state);
-    const newMedia = state.Media.media.filter(m => m._id !== id);
+    const newMedia = state.Media?.media?.filter(m => m._id !== id);
     console.log("new media", newMedia)
     return dispatch({type: "SET_MEDIA", payload:{media:newMedia}})
 }

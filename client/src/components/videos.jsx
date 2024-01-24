@@ -9,7 +9,7 @@ import "../css/videos.scss";
 const Videos = () => {
     const dispatch = useDispatch();
     const { media } = useSelector(state => state.Media);
-    const videos = media.filter(m => m.type === 'video');
+    const videos = media?.filter(m => m.type === 'video');
     const [playVideo, setPlayVideo] = useState();
     const { refNotClose } = UseCloseOnClick(() => playVideo && setPlayVideo(null));
     const { isAdmin } = useSelector(state => state.User)
@@ -50,7 +50,7 @@ const Videos = () => {
                 </div>}
 
                 <div className="video-list row align-center">
-                    {videos.filter(v => v.publish || isAdmin).map((v, i) =>
+                    {videos?.filter(v => v.publish || isAdmin).map((v, i) =>
                         <div key={v._id} className="video-item col-sm-4 mt-5">
                             <FontAwesomeIcon className="play-icon" icon={faPlayCircle} />
                             <video onClick={(e) => playMe(e, v)} src={v.url + '#t=2'}>

@@ -40,7 +40,7 @@ const ViewGalery = ({ images, currentImage }) => {
 
     return (
         <div className="view-galery row">
-            {images.filter(p => p.publish || isAdmin).map((p, i) =>
+            {images?.filter(p => p.publish || isAdmin).map((p, i) =>
                 <div key={p._id} className={`wrap-img col-sm-${isAdmin ? 3 : setCol(i)}`}>
                     <img onClick={() => currentImage(i)} src={p.url} alt="image" />
                     {isAdmin && <div className="img-controls">
