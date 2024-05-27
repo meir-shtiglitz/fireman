@@ -160,14 +160,13 @@ import ViewGalery from "./viewGalery";
 import { shuffelArray } from "../utils/data-utils";
 
 const MyGallery = () => {
-
+  const { User: { isAdmin }, Media:{ media } } = useSelector(state => state);
   const [currentImage, setCurrentImage] = useState(0);
   const [viewerIsOpen, setViewerIsOpen] = useState(false);
 
   const dispatch = useDispatch()
-  const { media } = useSelector(state => state.Media);
   let images = media?.filter(m => m.type === 'image');
-  images = shuffelArray(images)
+  if(!isAdmin) images = shuffelArray(images)
 
   const photos = images?.map((img, index) => {
     return { ...img, src: img.url, width: (index % 2) + 3, height: (index % 2) + 3 }
