@@ -5,9 +5,11 @@ import "../css/nav.scss";
 import logo from "../assets/images/logo.png";
 import { UseMenuScroll } from "../hooks/useMenuScroll";
 import { UseNavScroller } from "../hooks/useNavScroller";
+import { useSelector } from "react-redux";
 
 const Nav = () => {
     const {toScroll} = UseNavScroller();
+    const { isAdmin } = useSelector(state => state.User);
     const { menuRef, scrollToSection } = UseMenuScroll();
     const [showeNav, setShowNav] = useState(false);
     const [isHomeActive, setIsHomeActive] = useState();
@@ -44,6 +46,9 @@ console.log('showeNav',showeNav)
                     <li className="nav-item">
                         <NavLink onClick={toScroll} end className={`nav-link ${isActive('contact')}`} to="/#contact">צור קשר</NavLink>
                     </li>
+                    {isAdmin && <li className="nav-item">
+                        <NavLink end className="nav-link selected" to="/uploadfiles">העלאת קבצים</NavLink>
+                    </li>}
                 </ul>
             </div>
         </nav>
