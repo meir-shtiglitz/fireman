@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { apiUploadFiles } from "../api/uploadFiles";
-import { validFile, validImage } from "../controlers/validFiles";
+import { validFile, validImage } from "../utils/validFiles";
 
 const InputFiles = ({ change, uploadMode }) => {
     const [files, setFiles] = useState();

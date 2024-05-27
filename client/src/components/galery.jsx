@@ -157,6 +157,7 @@ import UseCloseOnClick from "../hooks/closeOnClick";
 import { actGetMedia } from "../redux/actions/media";
 import { useSelector, useDispatch } from "react-redux";
 import ViewGalery from "./viewGalery";
+import { shuffelArray } from "../utils/data-utils";
 
 const MyGallery = () => {
 
@@ -165,7 +166,9 @@ const MyGallery = () => {
 
   const dispatch = useDispatch()
   const { media } = useSelector(state => state.Media);
-  const images = media?.filter(m => m.type === 'image');
+  let images = media?.filter(m => m.type === 'image');
+  images = shuffelArray(images)
+
   const photos = images?.map((img, index) => {
     return { ...img, src: img.url, width: (index % 2) + 3, height: (index % 2) + 3 }
   })
@@ -191,8 +194,8 @@ const MyGallery = () => {
       {console.log("images",images)}
       <ViewGalery images={images}  currentImage={openLightbox} />
       {viewerIsOpen ? (
-        <div className="overlay">
-          <div ref={refToClose} className="in-overlay">
+        <div ref={refToClose} className="overlay">
+          <div className="in-overlay">
             <button onClick={closeLightbox} className="btn btn-danger in-mobile close-btn">X</button>
             <Carousel currentImage={currentImage} imageDots={true} >
               {photos.map((p, index) => <>
