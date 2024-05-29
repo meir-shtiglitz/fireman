@@ -5,6 +5,7 @@ import Recommend from "./recommend";
 import { actGetRecommends } from "../redux/actions/recommends";
 import { useSelector, useDispatch } from "react-redux";
 import NewRecommend from "./new-recommend";
+import { shuffelArray } from "../utils/data-utils";
 
 const Recommends = ({ carouselMode }) => {
 
@@ -21,7 +22,7 @@ const Recommends = ({ carouselMode }) => {
         } else {
             if (!recs || !Array.isArray(recs) || recs.length < 1) return;
             setAllItems(recs);
-            setPublishItems(recs?.filter(item => item.public));
+            setPublishItems(shuffelArray(recs?.filter(item => item.public)));
         }
 
     }, [recs])
