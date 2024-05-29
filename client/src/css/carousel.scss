@@ -13,9 +13,13 @@
     box-sizing: border-box;
   }
 
-.wrap-car{
+  .wrap-car{
     overflow: hidden;
     /* width: 90%; */
+}
+
+.about-car .wrap-car{
+  border: solid 5px $mainColor;
 }
 
 

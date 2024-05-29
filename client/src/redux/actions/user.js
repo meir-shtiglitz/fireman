@@ -11,7 +11,7 @@ const toStore = (res, dispatch) => {
         localStorage.setItem('token', res.data.token);
         return dispatch({type: 'AUTH_SUCCESS', payload})
     }
-    return dispatch({type: 'AUTHE_FAIL'})
+    return dispatch({type: 'AUTH_FAIL'})
 }
 export const actLogin = data => async dispatch => {
     const res = await axios.post(`${process.env.REACT_APP_API_URL}/users/login`, data,{
@@ -41,7 +41,8 @@ export const actLoginByToken = () => async dispatch => {
     toStore(res,dispatch)
 }
 
-export const actLogout = () => {
+export const actLogout = () => dispatch => {
     localStorage.removeItem('token');
-    return {type: 'LOG_OUT', payload: {user: null, token: null, isAdmin: false}}
+    console.log('from logout act')
+    return dispatch({type: 'LOG_OUT'})
 }
