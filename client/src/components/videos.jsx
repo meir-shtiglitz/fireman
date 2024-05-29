@@ -5,11 +5,12 @@ import UseCloseOnClick from "../hooks/closeOnClick";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash, faPlayCircle } from '@fortawesome/free-solid-svg-icons';
 import "../css/videos.scss";
+import { shuffelArray } from "../utils/data-utils";
 
 const Videos = () => {
     const dispatch = useDispatch();
     const { media } = useSelector(state => state.Media);
-    const videos = media?.filter(m => m.type === 'video');
+    const [videos, setVideos] = useState([]);
     const [playVideo, setPlayVideo] = useState();
     const { refNotClose } = UseCloseOnClick(() => playVideo && setPlayVideo(null));
     const { isAdmin } = useSelector(state => state.User)
@@ -17,6 +18,13 @@ const Videos = () => {
     useEffect(() => {
         if (videos.length < 1) dispatch( actGetMedia() );
     }, []);
+
+  useEffect(() => {
+    console.log('suffellllllll videos')
+    let _videos = media?.filter(m => m.type === 'video');
+    if(!isAdmin) _videos = shuffelArray(_videos)
+      setVideos(_videos)
+  }, [media])
 
     const deleteVideo = (id) => {
         console.log("id from delete func", id)
