@@ -26,22 +26,10 @@ const ViewGalery = ({ images, currentImage }) => {
         dispatch(actTopImg(id, !status));
     }
 
-    function randomColSize(index){
-        var row = 0;
-        return () => {
-            if (row === 12) row = 0;
-            let random = Math.ceil(Math.random() * 4) + 1;
-            if ((row + random) > 12) random = 12 - row;
-            row = row + random;
-            return random;
-        }
-    }
-    let setCol = randomColSize();
-
     return (
         <div className="view-galery row">
             {images?.filter(p => p.publish || isAdmin).map((p, i) =>
-                <div key={p._id} className={`wrap-img col-sm-${isAdmin ? 3 : setCol(i)}`}>
+                <div key={p._id} className={`wrap-img col-sm-${p.col}`}>
                     <img onClick={() => currentImage(i)} src={p.url} alt="image" />
                     {isAdmin && <div className="img-controls">
                         <button onClick={() => deleteImg(p._id)} className="btn btn-danger">X</button>

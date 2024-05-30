@@ -15,11 +15,30 @@ const MyGallery = () => {
 
   const dispatch = useDispatch()
 
+
+  function randomColSize(index){
+    var row = 0;
+    return () => {
+        if (row === 12) row = 0;
+        let random = Math.ceil(Math.random() * 4) + 1;
+        if ((row + random) > 12) random = 12 - row;
+        row = row + random;
+        return random;
+    }
+}
+
+const setImagesWidth = (_images) => {
+  let getCol = randomColSize();
+  const imagesWithWidth = _images.map(img => ({...img, col: isAdmin ? 3 : getCol()}))
+  return imagesWithWidth
+}
+
   useEffect(() => {
     console.log('suffellllllll')
     let _images = media?.filter(m => m.type === 'image');
     if(!isAdmin) _images = shuffelArray(_images)
-      setImages(_images)
+    _images = setImagesWidth(_images)
+    setImages(_images)
   }, [media])
 
   const photos = images?.map((img, index) => {
