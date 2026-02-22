@@ -56,6 +56,9 @@ console.log('showeNav',showeNav)
                     {isAdmin && <li className="nav-item">
                         <NavLink end className="nav-link selected" to="/uploadfiles">העלאת קבצים</NavLink>
                     </li>}
+                    {isAdmin && <li className="nav-item">
+                        <NavLink end className="nav-link selected" to="/quotes">הצעות מחיר</NavLink>
+                    </li>}
                     {isAdmin && <li onClick={() => dispatch(actLogout())} className="nav-item">
                         <NavLink end className="nav-link" to="/">התנתק</NavLink>
                     </li>}

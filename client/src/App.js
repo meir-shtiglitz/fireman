@@ -25,6 +25,7 @@ import InputFiles from './components/inputFiles';
 import Loader from './components/loader';
 import AdminRoute from './components/adminRoute';
 import InBuildPage from './components/in_build_page';
+import QuoteForm from './components/QuoteForm';
 
 function App() {
 
@@ -52,6 +53,7 @@ function App() {
           {/* <Route exact path="/contact" element={<Contact />} /> */}
           {/* <Route exact path="/galery" element={<MyGallery />} /> */}
           <Route exact path="/galery" element={<MyGallery />} />
+          <Route exact path="/quotes" element={<AdminRoute Component={<QuoteForm />} />} /> 
 
           {/* <Route path="/magics/word" element={<MagicWord />} /> */}
           <Route path="/fire" element={<Fire />} />
