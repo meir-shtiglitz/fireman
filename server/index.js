@@ -17,6 +17,7 @@ const contactRoute = require('./routes/contact');
 const recommendRoute = require('./routes/recommend');
 const assetsRoute = require('./routes/media');
 const videosRoute = require('./routes/videos');
+const emailRoute = require('./routes/email'); // Import the new email route
 const path = require("path");
 
 const { uploadFiles } = require('./controlers/uploadAssets');
@@ -52,6 +53,7 @@ app.use('/api/contact', contactRoute);
 app.use('/api/recommend', recommendRoute);
 app.use('/api/media', assetsRoute);
 app.use('/api/videos', videosRoute);
+app.use('/api', emailRoute); // Use the new email route
 
 // trieng to load the client from server
 const buildPath = path.join(__dirname, 'build');
