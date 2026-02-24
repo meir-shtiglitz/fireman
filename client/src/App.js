@@ -26,48 +26,51 @@ import Loader from './components/loader';
 import AdminRoute from './components/adminRoute';
 import InBuildPage from './components/in_build_page';
 import QuoteForm from './components/QuoteForm';
+import QuotesList from './components/QuotesList';
 
 function App() {
 
   const dispatch = useDispatch();
-  const {isLoading} = useSelector(store => store.Loader);
-  
-  useEffect(()=>{
-    dispatch( actLoginByToken() );
-  },[])
+  const { isLoading } = useSelector(store => store.Loader);
+
+  useEffect(() => {
+    dispatch(actLoginByToken());
+  }, [])
 
   return (
     <>
-    {isLoading && <Loader />}
-    <>
-      <div className="wrap-nav">
-        <Nav />
-      </div>
-      <div className="App">
-        <Routes>
-          {/* <Route exact path="/" element={<Home />} /> */}
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/login" element={<Auth />} />
-          <Route exact path="/register" element={<Auth regMode={true} />} />
-          {/* <Route exact path="/about" element={<About />} /> */}
-          {/* <Route exact path="/contact" element={<Contact />} /> */}
-          {/* <Route exact path="/galery" element={<MyGallery />} /> */}
-          <Route exact path="/galery" element={<MyGallery />} />
-          <Route exact path="/quotes" element={<AdminRoute Component={<QuoteForm />} />} /> 
+      {isLoading && <Loader />}
+      <>
+        <div className="wrap-nav">
+          <Nav />
+        </div>
+        <div className="App">
+          <Routes>
+            {/* <Route exact path="/" element={<Home />} /> */}
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/login" element={<Auth />} />
+            <Route exact path="/register" element={<Auth regMode={true} />} />
+            {/* <Route exact path="/about" element={<About />} /> */}
+            {/* <Route exact path="/contact" element={<Contact />} /> */}
+            {/* <Route exact path="/galery" element={<MyGallery />} /> */}
+            <Route exact path="/galery" element={<MyGallery />} />
+            <Route exact path="/quotes" element={<AdminRoute Component={<QuotesList />} />} />
+            <Route exact path="/quotes/new" element={<AdminRoute Component={<QuoteForm />} />} />
+            <Route exact path="/quotes/:id" element={<AdminRoute Component={<QuoteForm />} />} />
 
-          {/* <Route path="/magics/word" element={<MagicWord />} /> */}
-          <Route path="/fire" element={<Fire />} />
-          <Route path="/car" element={<Carousel />} />
-          <Route path="/new/recommend" element={<NewRecommend />} />
-          <Route path="/recommends" element={<Recommends />} />
-          <Route path="/recommend/edit/:recID" element={<RecommendEdit />} />
-          {/* <Route path="videos" element={<Videos />} /> */}
-          <Route exact path="/videos" element={<Videos />} />
-          <Route path="aprove/video/:src/:ID" element={<AproveVideo />} />
-          <Route path="uploadfiles" element={<AdminRoute Component={<InputFiles uploadMode={true} />}/>} />
-          <Route path="/build/page" element={<InBuildPage />} />
-        </Routes>
-      </div>
+            {/* <Route path="/magics/word" element={<MagicWord />} /> */}
+            <Route path="/fire" element={<Fire />} />
+            <Route path="/car" element={<Carousel />} />
+            <Route path="/new/recommend" element={<NewRecommend />} />
+            <Route path="/recommends" element={<Recommends />} />
+            <Route path="/recommend/edit/:recID" element={<RecommendEdit />} />
+            {/* <Route path="videos" element={<Videos />} /> */}
+            <Route exact path="/videos" element={<Videos />} />
+            <Route path="aprove/video/:src/:ID" element={<AproveVideo />} />
+            <Route path="uploadfiles" element={<AdminRoute Component={<InputFiles uploadMode={true} />} />} />
+            <Route path="/build/page" element={<InBuildPage />} />
+          </Routes>
+        </div>
       </>
     </>
   );

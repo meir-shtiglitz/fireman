@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Page, Text, View, Document, StyleSheet, Font, BlobProvider, Link, Image } from '@react-pdf/renderer';
 import { format } from 'date-fns';
-import { sendQuoteEmail } from '../api/quote'; // We'll create this soon
+import { sendQuoteEmail, createQuote, updateQuote, getQuoteById } from '../api/quote';
+import { useParams, useNavigate } from 'react-router-dom';
 
 // Register a font that supports Hebrew and RTL
 // You might need to host this font or use a local path if it's bundled
@@ -20,7 +21,7 @@ Font.register({
       fontWeight: 'normal',
     },
     {
-      src: 'fonts/NotoSansHebrew-Bold.ttf',
+      src: '/fonts/NotoSansHebrew-Bold.ttf',
       fontWeight: 'bold',
     },
   ],
@@ -107,11 +108,11 @@ const QuotePdfDocument = ({ data }) => (
   <Document>
     <Page size="A4" style={pdfStyles.page}>
       <View style={pdfStyles.wrapLogo}>
-      <Image
-        src="/logo192.png"
-        style={pdfStyles.logo}
-      />
-    </View>
+        <Image
+          src="/logo192.png"
+          style={pdfStyles.logo}
+        />
+      </View>
       <Text style={pdfStyles.header}>פיירמנטש - אמן האשליות</Text>
       <View style={[pdfStyles.row, pdfStyles.center]}>
         <Text style={pdfStyles.header}>טופס הזמנה</Text>
@@ -122,7 +123,7 @@ const QuotePdfDocument = ({ data }) => (
       <View style={pdfStyles.section}>
         <Text style={pdfStyles.subheader}>פרטי לקוח</Text>
         <View style={pdfStyles.row}>
-          <Text style={[ pdfStyles.text, pdfStyles.label ]}>:עבור</Text>
+          <Text style={[pdfStyles.text, pdfStyles.label]}>:עבור</Text>
           <Text style={pdfStyles.text}>{data.recipient}</Text>
         </View>
         <View style={pdfStyles.row}>
@@ -151,7 +152,7 @@ const QuotePdfDocument = ({ data }) => (
         </View>
         <View style={pdfStyles.row}>
           <Text style={{ ...pdfStyles.text, ...pdfStyles.label }}>:משך הסדנה</Text>
-          <Text style={pdfStyles.text}>{data.duration} שעות</Text>
+          <Text style={pdfStyles.text}>{data.duration}</Text>
         </View>
         <View style={pdfStyles.row}>
           <Text style={{ ...pdfStyles.text, ...pdfStyles.label }}>:הערות</Text>
@@ -165,7 +166,19 @@ const QuotePdfDocument = ({ data }) => (
           <Text style={{ ...pdfStyles.text, ...pdfStyles.price }}>{data.price} ₪</Text>
         </View>
       </View>
-      
+
+      {data.customFields && data.customFields.length > 0 && (
+        <View style={{ ...pdfStyles.section, borderBottom: 'none' }}>
+          <Text style={pdfStyles.subheader}>מידע נוסף</Text>
+          {data.customFields.map((field, idx) => (
+            <View style={pdfStyles.row} key={idx}>
+              <Text style={{ ...pdfStyles.text, ...pdfStyles.label }}>:{field.label}</Text>
+              <Text style={pdfStyles.text}>{field.value}</Text>
+            </View>
+          ))}
+        </View>
+      )}
+
       <View style={{ ...pdfStyles.section, borderBottom: 'none' }}>
         <Text style={pdfStyles.footer}>:צור קשר</Text>
         <Text style={{ ...pdfStyles.footer }}>052-7668659</Text>
@@ -176,6 +189,8 @@ const QuotePdfDocument = ({ data }) => (
 );
 
 const QuoteForm = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     recipient: '',
     contactPerson: '',
@@ -183,45 +198,61 @@ const QuoteForm = () => {
     email: '',
     activityType: 'מופע אש', // Default
     date: format(new Date(), 'yyyy-MM-dd'), // Default to today
-    duration: 1,
+    duration: '45 - 60 דקות',
     price: 0,
     notes: '',
+    customFields: []
   });
 
   const [pdfBlob, setPdfBlob] = useState(null);
   const [showPdfPreview, setShowPdfPreview] = useState(false);
   const [loadingPdf, setLoadingPdf] = useState(false);
   const [sendingEmail, setSendingEmail] = useState(false);
+  const [savingQuote, setSavingQuote] = useState(false);
   const [emailStatus, setEmailStatus] = useState('');
+  const [customSendEmail, setCustomSendEmail] = useState('');
 
-  // Simple price calculation logic
   useEffect(() => {
-    const calculatePrice = () => {
-      let baseRate = 0;
-      switch (formData.activityType) {
-        case 'מופע אש':
-          baseRate = 500;
-          break;
-        case "סדנת ג'אגלינג":
-          baseRate = 300;
-          break;
-        case 'מופע קסמים':
-          baseRate = 400;
-          break;
-        default:
-          baseRate = 0;
+    if (id) {
+      const loadQuote = async () => {
+        try {
+          const data = await getQuoteById(id);
+          setFormData({
+            ...data.customer,
+            ...data.service,
+            date: data.service.date ? format(new Date(data.service.date), 'yyyy-MM-dd') : '',
+            price: data.price,
+            customFields: data.customFields || [],
+            _id: data._id,
+            quoteNumber: data.quoteNumber
+          });
+        } catch (error) {
+          console.error("Failed to load quote", error);
+        }
       }
-      return baseRate * formData.duration;
-    };
-    // Only update if the user hasn't manually overridden the price
-    // For now, let's keep it simple and always recalculate.
-    // A more advanced version would have a separate "manual price" flag.
-    setFormData((prev) => ({ ...prev, price: calculatePrice() }));
-  }, [formData.activityType, formData.duration]);
+      loadQuote();
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleCustomFieldChange = (index, field, value) => {
+    const newFields = [...formData.customFields];
+    newFields[index][field] = value;
+    setFormData({ ...formData, customFields: newFields });
+  };
+
+  const addCustomField = () => {
+    setFormData({ ...formData, customFields: [...formData.customFields, { label: '', value: '' }] });
+  };
+
+  const removeCustomField = (index) => {
+    const newFields = [...formData.customFields];
+    newFields.splice(index, 1);
+    setFormData({ ...formData, customFields: newFields });
   };
 
   const handleGeneratePdf = () => {
@@ -231,14 +262,63 @@ const QuoteForm = () => {
     window.open(url, '_blank');
   };
 
+  const getCleanQuoteData = () => {
+    return {
+      ...(formData._id ? { _id: formData._id } : {}),
+      customer: {
+        recipient: formData.recipient,
+        contactPerson: formData.contactPerson,
+        phone: formData.phone,
+        email: formData.email
+      },
+      service: {
+        activityType: formData.activityType,
+        date: formData.date,
+        duration: formData.duration,
+        notes: formData.notes
+      },
+      price: formData.price,
+      customFields: formData.customFields
+    };
+  };
+
+  const handleSaveQuote = async () => {
+    setSavingQuote(true);
+    setEmailStatus('שומר הצעת מחיר...');
+    try {
+      const payload = getCleanQuoteData();
+      let res;
+      if (formData._id) {
+        res = await updateQuote(formData._id, payload);
+      } else {
+        res = await createQuote(payload);
+      }
+      setEmailStatus('הצעת מחיר נשמרה בהצלחה!');
+      if (!formData._id && res._id) {
+        navigate(`/quotes/${res._id}`); // Redirect to edit mode
+      }
+    } catch (error) {
+      setEmailStatus('שגיאה בשמירת הצעת מחיר.');
+      console.error(error);
+    } finally {
+      setSavingQuote(false);
+    }
+  };
+
   const handleSendEmail = async () => {
     if (!pdfBlob) {
       alert('Please generate the PDF preview first.');
       return;
     }
 
+    const emailToSend = customSendEmail || formData.email;
+    if (!emailToSend) {
+      alert('אנא הזן כתובת אימייל לשליחה.');
+      return;
+    }
+
     setSendingEmail(true);
-    setEmailStatus('שולח אימייל...');
+    setEmailStatus(`שולח אימייל ל-${emailToSend}...`);
     try {
       const base64Pdf = await new Promise((resolve) => {
         const reader = new FileReader();
@@ -249,7 +329,7 @@ const QuoteForm = () => {
       });
 
       const response = await sendQuoteEmail({
-        to: formData.email,
+        to: emailToSend,
         subject: `הצעת מחיר עבור ${formData.recipient}`,
         text: `שלום ${formData.contactPerson},
 
@@ -257,13 +337,14 @@ const QuoteForm = () => {
 
 בברכה,
 פיירמנטש`,
-        html: `<p>שלום ${formData.contactPerson},</p><p>מצורפת הצעת מחיר עבור האירוע שלכם.</p><p>בברכה,</p><p>פיירמג'יק</p>`,
+        html: `<p>שלום ${formData.contactPerson},</p><p>מצורפת הצעת מחיר עבור האירוע שלכם.</p><p>בברכה,</p><p>פיירמנטש</p>`,
         attachments: [{
           filename: `הצעת_מחיר_${formData.recipient}.pdf`,
           content: base64Pdf,
           encoding: 'base64',
           contentType: 'application/pdf',
         }],
+        quoteData: getCleanQuoteData() // Sends quote data to be saved on backend via email route 
       });
       setEmailStatus(response.message || 'אימייל נשלח בהצלחה!');
     } catch (error) {
@@ -276,11 +357,16 @@ const QuoteForm = () => {
 
   return (
     <div style={{ direction: 'rtl', textAlign: 'right', maxWidth: '800px', margin: 'auto', padding: '20px' }}>
-      <h1>מערכת ניהול הצעות מחיר</h1>
+      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '15px' }}>
+        <button onClick={() => navigate('/quotes')} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer', color: '#007bff' }} title="חזור לרשימה">
+          &rarr;
+        </button>
+        <h1 style={{ margin: 0 }}>מערכת ניהול הצעות מחיר</h1>
+      </div>
 
       <div style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '15px', borderRadius: '8px' }}>
         <h2>פרטי הצעת מחיר</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '15px' }}>
           <div>
             <label htmlFor="recipient" style={{ display: 'block', marginBottom: '5px' }}>עבור:</label>
             <input type="text" id="recipient" name="recipient" value={formData.recipient} onChange={handleChange}
@@ -303,12 +389,25 @@ const QuoteForm = () => {
           </div>
           <div>
             <label htmlFor="activityType" style={{ display: 'block', marginBottom: '5px' }}>סוג ההפעלה:</label>
-            <select id="activityType" name="activityType" value={formData.activityType} onChange={handleChange}
-              style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}>
-              <option value="מופע אש">מופע אש</option>
-              <option value="סדנת ג'אגלינג">סדנת ג'אגלינג</option>
+            <select id="activityType" name="activityType"
+              value={["מופע קסמים", "הפעלת בועות סבון", "מופע אש"].includes(formData.activityType) ? formData.activityType : 'other'}
+              onChange={(e) => {
+                if (e.target.value === 'other') {
+                  handleChange({ target: { name: 'activityType', value: '' } });
+                } else {
+                  handleChange(e);
+                }
+              }}
+              style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px', marginBottom: ["מופע קסמים", "הפעלת בועות סבון", "מופע אש"].includes(formData.activityType) ? '0' : '10px' }}>
               <option value="מופע קסמים">מופע קסמים</option>
+              <option value="הפעלת בועות סבון">הפעלת בועות סבון</option>
+              <option value="מופע אש">מופע אש</option>
+              <option value="other">טקסט חופשי (אחר)</option>
             </select>
+            {!["מופע קסמים", "הפעלת בועות סבון", "מופע אש"].includes(formData.activityType) && (
+              <input type="text" name="activityType" value={formData.activityType} onChange={handleChange} placeholder="הקלד סוג הפעלה..."
+                style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }} />
+            )}
           </div>
           <div>
             <label htmlFor="date" style={{ display: 'block', marginBottom: '5px' }}>תאריך:</label>
@@ -316,8 +415,8 @@ const QuoteForm = () => {
               style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }} />
           </div>
           <div>
-            <label htmlFor="duration" style={{ display: 'block', marginBottom: '5px' }}>משך הסדנה (שעות):</label>
-            <input type="number" id="duration" name="duration" value={formData.duration} onChange={handleChange} min="0.5" step="0.5"
+            <label htmlFor="duration" style={{ display: 'block', marginBottom: '5px' }}>משך הסדנה:</label>
+            <input type="text" id="duration" name="duration" value={formData.duration} onChange={handleChange} min="0.5" step="0.5"
               style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }} />
           </div>
           <div>
@@ -325,39 +424,57 @@ const QuoteForm = () => {
             <input type="number" id="price" name="price" value={formData.price} onChange={handleChange}
               style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px', backgroundColor: '#f0f0f0' }} />
           </div>
-          <div style={{ gridColumn: 'span 2' }}>
+          <div style={{ gridColumn: '1 / -1' }}>
             <label htmlFor="notes" style={{ display: 'block', marginBottom: '5px' }}>הערות:</label>
             <textarea id="notes" name="notes" value={formData.notes} onChange={handleChange} rows="4"
-              style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }}></textarea>
+              style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px', boxSizing: 'border-box' }}></textarea>
+          </div>
+
+          <div style={{ gridColumn: '1 / -1', marginTop: '15px' }}>
+            <h3>שדות מותאמים אישית</h3>
+            {formData.customFields.map((field, idx) => (
+              <div key={idx} style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', marginBottom: '10px', alignItems: 'center' }}>
+                <input type="text" placeholder="שם השדה (לדוגמה: הערה למפיק)" value={field.label} onChange={(e) => handleCustomFieldChange(idx, 'label', e.target.value)} style={{ flex: '1 1 150px', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }} />
+                <input type="text" placeholder="ערך" value={field.value} onChange={(e) => handleCustomFieldChange(idx, 'value', e.target.value)} style={{ flex: '2 1 200px', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }} />
+                <button type="button" onClick={() => removeCustomField(idx)} style={{ padding: '8px 12px', background: '#dc3545', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>X</button>
+              </div>
+            ))}
+            <button type="button" onClick={addCustomField} style={{ padding: '8px 15px', background: '#28a745', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+              + הוסף שדה
+            </button>
           </div>
         </div>
 
-        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'space-around' }}>
-          <button onClick={handleGeneratePdf} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer' }}>
+        <div style={{ marginTop: '20px', display: 'flex', flexWrap: 'wrap', gap: '15px', justifyContent: 'center', alignItems: 'center' }}>
+          <button onClick={handleSaveQuote} disabled={savingQuote} style={{ padding: '10px 20px', backgroundColor: '#17a2b8', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', flex: '1 1 200px' }}>
+            {savingQuote ? 'שומר...' : (formData._id ? 'עדכן הצעת מחיר' : 'שמור הצעת מחיר')}
+          </button>
+          <button onClick={handleGeneratePdf} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '5px', cursor: 'pointer', flex: '1 1 200px' }}>
             הצג תצוגה מקדימה של PDF
           </button>
           <BlobProvider document={<QuotePdfDocument data={formData} />}>
             {({ blob, url, loading, error }) => {
-              console.log('blob', blob)
-              console.log('loading', loading)
-              console.log('error', error)
               if (!loading && blob) {
                 setPdfBlob(blob);
               }
               return (
-                <button
-                  onClick={handleSendEmail}
-                  disabled={!blob || sendingEmail}
-                  style={{
-                    padding: '10px 20px',
-                    backgroundColor: blob && !sendingEmail ? '#28a745' : '#cccccc',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: blob && !sendingEmail ? 'pointer' : 'not-allowed'
-                  }}>
-                  {sendingEmail ? 'שולח...' : 'שלח PDF ללקוח'}
-                </button>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: '1 1 250px' }}>
+                  <input type="email" placeholder="אימייל לשליחה (ריק = לקוח)" value={customSendEmail} onChange={(e) => setCustomSendEmail(e.target.value)}
+                    style={{ padding: '8px', border: '1px solid #ddd', borderRadius: '4px', textAlign: 'right', boxSizing: 'border-box', width: '100%' }} />
+                  <button
+                    onClick={handleSendEmail}
+                    disabled={!blob || sendingEmail}
+                    style={{
+                      padding: '10px 20px',
+                      backgroundColor: blob && !sendingEmail ? '#28a745' : '#cccccc',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '5px',
+                      cursor: blob && !sendingEmail ? 'pointer' : 'not-allowed'
+                    }}>
+                    {sendingEmail ? 'שולח...' : 'שלח PDF ללקוח'}
+                  </button>
+                </div>
               );
             }}
           </BlobProvider>

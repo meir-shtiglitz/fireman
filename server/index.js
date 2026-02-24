@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const bodyParser = require('body-parser');
 
-const multer  = require('multer');
+const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 
 require('dotenv').config();
@@ -18,6 +18,7 @@ const recommendRoute = require('./routes/recommend');
 const assetsRoute = require('./routes/media');
 const videosRoute = require('./routes/videos');
 const emailRoute = require('./routes/email'); // Import the new email route
+const quoteRoute = require('./routes/quote'); // Import the new quote route
 const path = require("path");
 
 const { uploadFiles } = require('./controlers/uploadAssets');
@@ -26,11 +27,11 @@ const mongoose = require('mongoose');
 
 //connect to MongoDB
 mongoose.connect(process.env.DATABASE, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }).then(() => console.log("conected to DB"))
-  .catch(error =>console.log(error));
-  
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then(() => console.log("conected to DB"))
+  .catch(error => console.log(error));
+
 // connect to db
 // connection.connect((err) => {
 //     if (err) {
@@ -41,7 +42,7 @@ mongoose.connect(process.env.DATABASE, {
 //   });
 //   connection.end();
 
-   
+
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -54,16 +55,17 @@ app.use('/api/recommend', recommendRoute);
 app.use('/api/media', assetsRoute);
 app.use('/api/videos', videosRoute);
 app.use('/api', emailRoute); // Use the new email route
+app.use('/api/quotes', quoteRoute); // Mount quote routes
 
 // trieng to load the client from server
 const buildPath = path.join(__dirname, 'build');
 app.use(express.static(buildPath));
 
 app.get('*', (req, res, next) => {
-  console.log('req.baseUrl',req.baseUrl)
-  if(!req.baseUrl.includes('api')){
+  console.log('req.baseUrl', req.baseUrl)
+  if (!req.baseUrl.includes('api')) {
     res.sendFile(`${buildPath}/index.html`);
-  } else{
+  } else {
     next()
   }
 })
@@ -74,5 +76,5 @@ app.get('/test', (req, res) => {
 
 const port = process.env.PORT || 3030;
 app.listen(port, () => {
-    console.log(`server running on port ${port}`)
+  console.log(`server running on port ${port}`)
 })

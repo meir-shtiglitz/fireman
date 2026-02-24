@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const quoteController = require('../controlers/quote');
+
+router.post('/', quoteController.createQuote);
+router.get('/', quoteController.getQuotes);
+router.get('/:id', quoteController.getQuoteById);
+router.put('/:id', quoteController.updateQuote);
+router.delete('/:id', quoteController.deleteQuote);
+router.post('/:id/duplicate', quoteController.duplicateQuote);
+
+module.exports = router;
