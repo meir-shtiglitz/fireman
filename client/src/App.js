@@ -27,6 +27,7 @@ import AdminRoute from './components/adminRoute';
 import InBuildPage from './components/in_build_page';
 import QuoteForm from './components/QuoteForm';
 import QuotesList from './components/QuotesList';
+import Calendar from './components/Calendar';
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
             <Route exact path="/quotes" element={<AdminRoute Component={<QuotesList />} />} />
             <Route exact path="/quotes/new" element={<AdminRoute Component={<QuoteForm />} />} />
             <Route exact path="/quotes/:id" element={<AdminRoute Component={<QuoteForm />} />} />
+            <Route exact path="/calendar" element={<AdminRoute Component={<Calendar />} />} />
 
             {/* <Route path="/magics/word" element={<MagicWord />} /> */}
             <Route path="/fire" element={<Fire />} />

@@ -19,9 +19,11 @@ const assetsRoute = require('./routes/media');
 const videosRoute = require('./routes/videos');
 const emailRoute = require('./routes/email'); // Import the new email route
 const quoteRoute = require('./routes/quote'); // Import the new quote route
+const eventRoute = require('./routes/event'); // Import event route
 const path = require("path");
 
 const { uploadFiles } = require('./controlers/uploadAssets');
+const { startReminderCron } = require('./services/reminder');
 
 const mongoose = require('mongoose');
 
@@ -56,6 +58,9 @@ app.use('/api/media', assetsRoute);
 app.use('/api/videos', videosRoute);
 app.use('/api', emailRoute); // Use the new email route
 app.use('/api/quotes', quoteRoute); // Mount quote routes
+app.use('/api/events', eventRoute); // Mount event routes
+
+startReminderCron(); // Initialize event reminder cron task
 
 // trieng to load the client from server
 const buildPath = path.join(__dirname, 'build');

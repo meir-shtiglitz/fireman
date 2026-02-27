@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getQuotes, deleteQuote, duplicateQuote } from '../api/quote';
+import { getEvents } from '../api/event';
 import { Link, useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 
@@ -46,7 +47,16 @@ const QuotesList = () => {
     const handleDelete = async (id) => {
         if (window.confirm('האם אתה בטוח שברצונך למחוק הצעת מחיר זו?')) {
             try {
-                await deleteQuote(id);
+                // Check if a linked event exists
+                const events = await getEvents();
+                const hasLinkedEvent = events.some(e => e.quoteId === id || e.quoteId?._id === id);
+
+                let deleteLinkedEvent = false;
+                if (hasLinkedEvent) {
+                    deleteLinkedEvent = window.confirm('נמצא אירוע מקושר ביומן. האם ברצונך למחוק גם אותו? (ביטול = מחיקת הצעת המחיר בלבד)');
+                }
+
+                await deleteQuote(`${id}?deleteEvent=${deleteLinkedEvent}`);
                 fetchQuotes(); // Refresh list
             } catch (error) {
                 console.error('Failed to delete quote', error);

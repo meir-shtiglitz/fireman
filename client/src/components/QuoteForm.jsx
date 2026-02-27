@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Page, Text, View, Document, StyleSheet, Font, BlobProvider, Link, Image } from '@react-pdf/renderer';
 import { format } from 'date-fns';
 import { sendQuoteEmail, createQuote, updateQuote, getQuoteById } from '../api/quote';
+import { getEvents } from '../api/event';
 import { useParams, useNavigate } from 'react-router-dom';
+import EventModal from './EventModal';
 
 // Register a font that supports Hebrew and RTL
 // You might need to host this font or use a local path if it's bundled
@@ -211,6 +213,8 @@ const QuoteForm = () => {
   const [savingQuote, setSavingQuote] = useState(false);
   const [emailStatus, setEmailStatus] = useState('');
   const [customSendEmail, setCustomSendEmail] = useState('');
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [linkedEvent, setLinkedEvent] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -226,6 +230,18 @@ const QuoteForm = () => {
             _id: data._id,
             quoteNumber: data.quoteNumber
           });
+
+          // Check for linked event
+          const events = await getEvents({ quoteId: id });
+          // Note: getEvents might not support quoteId filter directly yet in the backend
+          // Let's rely on finding it manually if needed, or update backend later
+          // Assuming backend getEvents can filter by quoteId if passed, though we didn't add it explicitly
+          // Let's filter client side for safety if backend returns all or ignores quoteId param if not implemented
+          const filtered = events.filter(e => e.quoteId === id || e.quoteId?._id === id);
+          if (filtered.length > 0) {
+            setLinkedEvent(filtered[0]);
+          }
+
         } catch (error) {
           console.error("Failed to load quote", error);
         }
@@ -294,6 +310,11 @@ const QuoteForm = () => {
         res = await createQuote(payload);
       }
       setEmailStatus('הצעת מחיר נשמרה בהצלחה!');
+
+      if (!linkedEvent && window.confirm("האם למלא גם אירוע למחולל הפעילויות (Calendar)?")) {
+        setShowEventModal(true);
+      }
+
       if (!formData._id && res._id) {
         navigate(`/quotes/${res._id}`); // Redirect to edit mode
       }
@@ -347,6 +368,10 @@ const QuoteForm = () => {
         quoteData: getCleanQuoteData() // Sends quote data to be saved on backend via email route 
       });
       setEmailStatus(response.message || 'אימייל נשלח בהצלחה!');
+
+      if (!linkedEvent && window.confirm("האם למלא גם אירוע למחולל הפעילויות (Calendar)?")) {
+        setShowEventModal(true);
+      }
     } catch (error) {
       console.error('Failed to send email:', error);
       setEmailStatus('שליחת אימייל נכשלה.');
@@ -480,6 +505,15 @@ const QuoteForm = () => {
           </BlobProvider>
         </div>
         {emailStatus && <p style={{ textAlign: 'center', marginTop: '10px', color: sendingEmail ? 'blue' : (emailStatus.includes('נכשלה') ? 'red' : 'green') }}>{emailStatus}</p>}
+        {linkedEvent && (
+          <div style={{ textAlign: 'center', marginTop: '10px' }}>
+            <button
+              onClick={() => setShowEventModal(true)}
+              style={{ padding: '8px 15px', backgroundColor: '#6c757d', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>
+              צפה באירוע מקושר ביומן
+            </button>
+          </div>
+        )}
       </div>
 
       {showPdfPreview && pdfBlob && (
@@ -487,6 +521,36 @@ const QuoteForm = () => {
           <h2>תצוגה מקדימה של PDF</h2>
           <iframe src={URL.createObjectURL(pdfBlob)} style={{ width: '100%', height: 'calc(100% - 40px)', border: 'none' }} title="PDF Preview"></iframe>
         </div>
+      )}
+
+      {showEventModal && (
+        <EventModal
+          show={showEventModal}
+          onHide={() => setShowEventModal(false)}
+          event={linkedEvent || { // Pre-fill with quote data
+            customer: {
+              recipient: formData.recipient,
+              contactPerson: formData.contactPerson,
+              phone: formData.phone,
+              email: formData.email
+            },
+            activityType: formData.activityType,
+            eventDate: formData.date ? new Date(formData.date).toISOString().split('T')[0] : '', // format nicely
+            duration: parseFloat(formData.duration) || 60,
+            price: formData.price,
+            notes: formData.notes,
+            quoteId: formData._id || id  // Link them!
+          }}
+          onSave={() => {
+            setShowEventModal(false);
+            // fetch events again to update linkedEvent state if needed?
+            // Window reload or simple state update
+            getEvents().then(events => {
+              const filtered = events.filter(e => e.quoteId === (formData._id || id) || e.quoteId?._id === (formData._id || id));
+              if (filtered.length > 0) setLinkedEvent(filtered[0]);
+            });
+          }}
+        />
       )}
     </div>
   );

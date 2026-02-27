@@ -84,6 +84,11 @@ const deleteQuote = async (req, res) => {
         if (!quote) {
             return res.status(404).json({ message: 'Quote not found' });
         }
+        if (req.query.deleteEvent === 'true') {
+            const Event = require('../models/event');
+            await Event.findOneAndDelete({ quoteId: req.params.id });
+        }
+
         res.status(200).json({ message: 'Quote deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting quote', error: error.message });
