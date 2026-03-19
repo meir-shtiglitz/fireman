@@ -20,6 +20,8 @@ const videosRoute = require('./routes/videos');
 const emailRoute = require('./routes/email'); // Import the new email route
 const quoteRoute = require('./routes/quote'); // Import the new quote route
 const eventRoute = require('./routes/event'); // Import event route
+const trickRoute = require('./routes/trick'); // Import trick route
+const eventTrickRoute = require('./routes/eventTrick'); // Import eventTrick route
 const path = require("path");
 
 const { uploadFiles } = require('./controlers/uploadAssets');
@@ -59,6 +61,8 @@ app.use('/api/videos', videosRoute);
 app.use('/api', emailRoute); // Use the new email route
 app.use('/api/quotes', quoteRoute); // Mount quote routes
 app.use('/api/events', eventRoute); // Mount event routes
+app.use('/api/tricks', trickRoute); // Mount trick routes
+app.use('/api/event-tricks', eventTrickRoute); // Mount eventTrick routes
 
 startReminderCron(); // Initialize event reminder cron task
 

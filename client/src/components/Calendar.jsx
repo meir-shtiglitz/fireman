@@ -138,6 +138,22 @@ const MyCalendar = () => {
         )
     };
 
+    const CustomDateHeader = ({ label, date }) => {
+        let hebrewDate = '';
+        try {
+            hebrewDate = new Intl.DateTimeFormat('he-IL-u-ca-hebrew', { day: 'numeric', month: 'short' }).format(date);
+        } catch (e) {
+            console.error("Error formatting Hebrew date", e);
+        }
+
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', padding: '0 5px' }}>
+                <span style={{ fontSize: '0.8em', color: '#666' }}>{hebrewDate}</span>
+                <span>{label}</span>
+            </div>
+        );
+    };
+
     return (
         <Container fluid className="mt-4" style={{ direction: 'rtl', textAlign: 'right' }}>
             <Row className="mb-3">
@@ -180,7 +196,10 @@ const MyCalendar = () => {
                         onSelectEvent={handleSelectEvent}
                         eventPropGetter={eventStyleGetter}
                         components={{
-                            event: CustomEvent
+                            event: CustomEvent,
+                            month: {
+                                dateHeader: CustomDateHeader
+                            }
                         }}
                     />
                 </div>

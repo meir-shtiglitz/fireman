@@ -62,6 +62,9 @@ const Nav = () => {
                     {isAdmin && <li className="nav-item">
                         <NavLink end className="nav-link selected" to="/calendar">יומן אירועים</NavLink>
                     </li>}
+                    {isAdmin && <li className="nav-item">
+                        <NavLink end className="nav-link selected" to="/tricks">ניהול קסמים</NavLink>
+                    </li>}
                     {isAdmin && <li onClick={() => dispatch(actLogout())} className="nav-item">
                         <NavLink end className="nav-link" to="/">התנתק</NavLink>
                     </li>}
