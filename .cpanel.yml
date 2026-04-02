@@ -4,7 +4,7 @@ deployment:
     # 1. Define specific paths for your account
     - export CPANEL_USER=n66cb45
     - export PUBLIC_HTML=/home/$CPANEL_USER/public_html
-    - export API_ROOT=/home/$CPANEL_USER/api_server
+    - export API_ROOT=/home/$CPANEL_USER/server
 
     # 2. Deploy the Client (React/Vue Build)
     # We use rsync to ensure it's fast and doesn't delete your .htaccess
