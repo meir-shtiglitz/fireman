@@ -1,7 +1,7 @@
 deployment:
   tasks:
-    # 1. Sync the server folder (including its internal build folder)
-    - /usr/bin/rsync -avz --exclude 'node_modules' server/ /home/n66cb45/server/
+    # 1. Sync the contents of the repo's server folder to your live server folder
+    - /usr/bin/rsync -avz --exclude 'node_modules' /home/n66cb45/fireman-deploy/server/ /home/n66cb45/server/
 
     # 2. Auto-Restart the Node.js App
     - /bin/mkdir -p /home/n66cb45/server/tmp
