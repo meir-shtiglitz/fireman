@@ -1,8 +1,12 @@
 deployment:
   tasks:
-    # 1. Sync the contents of the repo's server folder to your live server folder
-    - /usr/bin/rsync -avz --exclude 'node_modules' /home/n66cb45/fireman-deploy/server/ /home/n66cb45/server/
+    # 1. Copy the contents of the server folder up into the main repository folder
+    - /bin/cp -R /home/n66cb45/fireman-deploy/server/* /home/n66cb45/fireman-deploy/
 
-    # 2. Auto-Restart the Node.js App
-    - /bin/mkdir -p /home/n66cb45/server/tmp
-    - /bin/touch /home/n66cb45/server/tmp/restart.txt
+    # 2. Safely remove the original folders that were pulled from GitHub
+    - /bin/rm -rf /home/n66cb45/fireman-deploy/client
+    - /bin/rm -rf /home/n66cb45/fireman-deploy/server
+
+    # 3. Auto-Restart the Node.js App
+    - /bin/mkdir -p /home/n66cb45/fireman-deploy/tmp
+    - /bin/touch /home/n66cb45/fireman-deploy/tmp/restart.txt
