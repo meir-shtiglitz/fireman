@@ -1,22 +1,16 @@
 deployment:
   tasks:
-    # 1. Install Client Dependencies
-    - cd /home/n66cb45/fireman-deploy/client && npm install
+    # 1. Build everything in one go to catch errors early
+    - export PATH=/opt/cpanel/ea-nodejs16/bin/:$PATH && export REACT_APP_API_URL="/api" && cd /home/n66cb45/fireman-deploy/client && npm install && npm run build
 
-    # 2. Build with Environment Variable (using 'build' folder)
-    - export REACT_APP_API_URL="https://fire.msdevteam.com/api" && cd /home/n66cb45/fireman-deploy/client && npm run build
-
-    # 3. Copy Client Build contents directly to the Server folder
-    # This places your index.html and static assets in the server root
+    # 2. Copy build contents to server root
     - /bin/cp -R /home/n66cb45/fireman-deploy/client/build/* /home/n66cb45/fireman-deploy/server/
 
-    # 4. Move everything from 'server' up to the main deployment root
+    # 3. Final move and cleanup
     - /bin/cp -R /home/n66cb45/fireman-deploy/server/* /home/n66cb45/fireman-deploy/
-
-    # 5. Clean up original source folders
     - /bin/rm -rf /home/n66cb45/fireman-deploy/client
     - /bin/rm -rf /home/n66cb45/fireman-deploy/server
 
-    # 6. Restart the Node.js App
+    # 4. Restart
     - /bin/mkdir -p /home/n66cb45/fireman-deploy/tmp
     - /bin/touch /home/n66cb45/fireman-deploy/tmp/restart.txt
