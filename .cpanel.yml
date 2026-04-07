@@ -1,0 +1,23 @@
+deployment:
+  tasks:
+    # 1. Install Client Dependencies
+    - cd /home/n66cb45/fireman-deploy/client && npm install
+
+    # 2. Build with Environment Variable
+    # Using 'export' ensures the variable is available to the npm process
+    - export REACT_APP_API_URL="/api" && cd /home/n66cb45/fireman-deploy/client && npm run build
+
+    # 3. Prepare Server Public Directory and Copy Build
+    - /bin/mkdir -p /home/n66cb45/fireman-deploy/server/public
+    - /bin/cp -R /home/n66cb45/fireman-deploy/client/dist/* /home/n66cb45/fireman-deploy/server/public/
+
+    # 4. Move Server contents to the main repository folder
+    - /bin/cp -R /home/n66cb45/fireman-deploy/server/* /home/n66cb45/fireman-deploy/
+
+    # 5. Clean up source folders
+    - /bin/rm -rf /home/n66cb45/fireman-deploy/client
+    - /bin/rm -rf /home/n66cb45/fireman-deploy/server
+
+    # 6. Restart Passenger
+    - /bin/mkdir -p /home/n66cb45/fireman-deploy/tmp
+    - /bin/touch /home/n66cb45/fireman-deploy/tmp/restart.txt
