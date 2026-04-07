@@ -1,16 +1,20 @@
 deployment:
   tasks:
-    # 1. Build everything in one go to catch errors early
-    - export PATH=/opt/cpanel/ea-nodejs16/bin/:$PATH && export REACT_APP_API_URL="/api" && cd /home/n66cb45/fireman-deploy/client && npm install && npm run build
+    # 1. Provide absolute path to Node 16 binaries and run build
+    - export PATH=/opt/cpanel/ea-nodejs16/bin/:$PATH && export REACT_APP_API_URL="https://fire.msdevteam.com/api" && cd /home/n66cb45/fireman-deploy/client && npm install && npm run build
 
-    # 2. Copy build contents to server root
+    # 2. Copy the build contents into the server folder
+    # This ensures your static files are mixed with your backend files
     - /bin/cp -R /home/n66cb45/fireman-deploy/client/build/* /home/n66cb45/fireman-deploy/server/
 
-    # 3. Final move and cleanup
+    # 3. Move EVERYTHING from the server folder up to the deployment root
+    # Since Application Root is 'fireman-deploy', Passenger looks for index.js here
     - /bin/cp -R /home/n66cb45/fireman-deploy/server/* /home/n66cb45/fireman-deploy/
+
+    # 4. Clean up original source directories to prevent Passenger from getting confused
     - /bin/rm -rf /home/n66cb45/fireman-deploy/client
     - /bin/rm -rf /home/n66cb45/fireman-deploy/server
 
-    # 4. Restart
+    # 5. Restart the app (Essential for Passenger to pick up changes)
     - /bin/mkdir -p /home/n66cb45/fireman-deploy/tmp
     - /bin/touch /home/n66cb45/fireman-deploy/tmp/restart.txt
