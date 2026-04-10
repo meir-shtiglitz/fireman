@@ -1,0 +1,20 @@
+---
+deployment:
+  tasks:
+    # 1. Use the absolute path to npm for Node 16 (based on your Node Selector screenshot)
+    # We combine install and build with '&&' so it stops if any part fails.
+    - export PATH=/opt/cpanel/ea-nodejs16/bin/:$PATH && cd client && /opt/cpanel/ea-nodejs16/bin/npm install && /opt/cpanel/ea-nodejs16/bin/npm run build
+
+    # 2. Copy the build contents to the server folder
+    - /bin/cp -R /home/n66cb45/fireman-deploy/client/build/* /home/n66cb45/fireman-deploy/server/
+
+    # 3. Move everything to the deployment root (fireman-deploy)
+    - /bin/cp -R /home/n66cb45/fireman-deploy/server/* /home/n66cb45/fireman-deploy/
+
+    # 4. Clean up only the source folders
+    - /bin/rm -rf /home/n66cb45/fireman-deploy/client
+    - /bin/rm -rf /home/n66cb45/fireman-deploy/server
+
+    # 5. Restart Passenger
+    - /bin/mkdir -p /home/n66cb45/fireman-deploy/tmp
+    - /bin/touch /home/n66cb45/fireman-deploy/tmp/restart.txt
